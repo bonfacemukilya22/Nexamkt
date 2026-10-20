@@ -964,4 +964,18 @@ const server=http.createServer((req,res)=>{
   res.writeHead(200,{'Content-Type':MIME[x]||'application/octet-stream','Cache-Control':x==='.png'?'public, max-age=3600':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'});res.end(d)})});
 load();
 if(require.main===module)server.listen(PORT,()=>console.log(`NexaMarkets running: http://localhost:${PORT}/ admin: http://localhost:${PORT}/admin/`));
-module.exports={server,tfAnalyse,analyseSym,_t:{LSRC,LIVE,T}};
+// module.exports={server,tfAnalyse,analyseSym,_t:{LSRC,LIVE,T}};
+// Define a wrapper function for Vercel to route traffic through
+const handler = (req, res) => {
+    // Call your server instance request listener function
+    server.emit('request', req, res);
+};
+
+// Attach your extra methods so your project files don't break
+handler.server = server;
+handler.tfAnalyse = tfAnalyse;
+handler.analyseSym = analyseSym;
+handler._t = { LSRC, LIVE, T };
+
+// Export the handler directly as required by Vercel's Node.js engine
+module.exports = handler;
