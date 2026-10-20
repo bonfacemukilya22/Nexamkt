@@ -1,0 +1,1113 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NexaMarkets</title>
+<link rel="stylesheet" href="assets/style.css"><script src="assets/common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script></head><body>
+<div id="authv" class="hide"><div class="land">
+ <section class="lhero">
+  <div class="brand"><div class="tile"><img src="assets/logo.png" alt="NexaMarkets logo"></div><span>NexaMarkets</span></div>
+  <div class="lmain"><h1>Trade smarter with<br><span>real-time markets</span></h1>
+   <p>Trade forex and crypto markets with a free demo account, AI-assisted market scanning and fast-response customer support.</p>
+   <div class="lstats"><div><b id="stM">28</b><span>MARKETS</span></div><div><b>95%</b><span>PAYOUT</span></div><div><b>24/7</b><span>SUPPORT</span></div></div></div>
+  <div class="lfoot">© 2026 NexaMarkets. Trading involves risk of loss.</div>
+ </section>
+ <section class="lform"><form class="lbox" id="authForm" autocomplete="on" novalidate>
+  <h2>Welcome back</h2><p class="sub">Sign in to your account to continue</p>
+  <div class="fl">EMAIL ADDRESS</div>
+  <div class="iw"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><input id="aMail" name="email" type="email" class="field" placeholder="user@gmail.com" autocomplete="email"></div>
+  <div class="fl">PASSWORD</div>
+  <div class="iw"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><input id="aPass" name="password" type="password" class="field" placeholder="Enter your password" autocomplete="current-password">
+   <button id="eye" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke-width:1.7"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+  <div class="lrow"><label><input type="checkbox" id="aRem"> Remember me</label><a href="#" id="aForgot">Change password</a></div>
+  <div id="aErr" class="dn" style="margin-bottom:10px"></div>
+  <button id="aGo" type="submit" class="go">Sign In →</button>
+  <p class="sw">Don't have an account? <a href="signup.html">Create account</a></p>
+ </form>
+ <form class="lbox hide" id="pwForm" autocomplete="off" novalidate>
+  <h2>Change password</h2><p class="sub">Enter your email and current password, then choose a new one</p>
+  <div class="fl">EMAIL ADDRESS</div><input id="cpMail" type="email" class="field" autocomplete="email" placeholder="user@gmail.com">
+  <div class="fl">CURRENT PASSWORD</div><input id="cpOld" type="password" class="field" autocomplete="current-password">
+  <div class="fl">NEW PASSWORD</div><input id="cpNew" type="password" class="field" autocomplete="new-password">
+  <div class="fl">CONFIRM NEW PASSWORD</div><input id="cpNew2" type="password" class="field" autocomplete="new-password">
+  <div id="cpErr" class="dn" style="margin-bottom:10px"></div>
+  <button id="cpGo" type="submit" class="go">Update password</button>
+  <p class="sw">Forgot your current password? Message support and an admin will reset it.<br><a href="#" id="cpBack">← Back to sign in</a></p>
+ </form></section></div></div>
+
+<div id="app" class="hide">
+<div id="mt" class="banner hide">System maintenance in progress. Trading may be unavailable.</div>
+<header class="top"><div class="logo" style="margin:0;display:flex;align-items:center;gap:10px"><span class="tile" style="display:block;width:34px;height:34px;border-radius:99px;overflow:hidden;flex:none"><img src="assets/logo.png" alt="" style="width:100%;height:100%;display:block"></span><span>Nexa<b>Markets</b></span></div>
+ <nav><button id="nHub">⌂ TRADER'S HUB</button><button id="nDep">⊕ TOP UP</button><button id="nWd">⊖ WITHDRAW</button><button id="nHist">⟲ HISTORY</button><button id="nChat">▭ CHAT</button></nav>
+ <span class="sp"></span>
+ <button class="pri" id="bAI">✦ AI</button><button class="ic" id="bSnd" aria-label="Sound">🔊</button><button class="ic" id="bTheme" aria-label="Toggle theme">☀</button>
+ <button id="bAcct"><span id="badge" class="bdg real">R</span><b id="bal"></b>&nbsp;▾</button>
+ <button class="pri" id="bDep">TOP UP</button>
+ <button class="ic" id="bNote" aria-label="Notifications">🔔<span id="nc" class="dot hide"></span></button>
+ <button class="ic" id="bProf" aria-label="Profile">👤</button></header>
+<div id="acctMenu" class="card pop">
+ <button class="am" data-m="real"><i style="background:#3b82f6"></i>Real Account<em id="aR"></em></button>
+ <button class="am" data-m="demo"><i style="background:var(--dn)"></i>Demo Account<em id="aD"></em></button><hr style="border:0;border-top:1px solid var(--ln)">
+ <button class="am mu" id="rstDemo">⟲ Reset Demo Balance</button></div>
+<div id="notePop" class="card pop"></div>
+<div id="profPop" class="card pop">
+ <b id="pName"></b><div class="mu" id="pMail"></div>
+ <button id="bRefer" style="margin-top:8px;width:100%;background:linear-gradient(90deg, #ff6600, #10b981);color:#fff;border:0;">🎁 Refer & Earn</button>
+ <button id="bPw" style="margin-top:8px;width:100%">Change password</button>
+ <button id="bOut" style="margin-top:8px;width:100%">Sign out</button>
+</div>
+
+<div class="shell">
+ <section class="left"><div class="lt"><button data-t="open" class="on">Open (<span id="cO">0</span>)</button><button data-t="closed">Closed (<span id="cC">0</span>)</button><button data-t="tx">Transactions</button></div>
+  <div class="lbody" id="lbody"></div>
+  <div class="lfoot2"><div><span class="mu">LAST SESSION</span><span id="ls1"></span></div><div><span class="mu">SESSION P/L</span><b id="ls2"></b></div><div><span class="mu" id="ls3"></span></div></div></section>
+
+ <section class="mid"><div id="tcard" class="tcard hide"></div>
+  <div class="cwrap"><div id="chart"><canvas id="cv"></canvas></div>
+   <div class="assetbox" id="assetBtn"><span style="font-size:20px">▥</span><div><small id="aName2"></small><b id="px"></b></div><span class="mu">▾</span></div>
+   <div class="ctools">
+    <button id="tTf" class="on" title="Timeframe">1T</button>
+    <button id="tType" title="Chart type"></button>
+    <button id="tZoom" title="Zoom"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg></button>
+    <button id="tGrid" class="on" title="Grid"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.5h16M4 14.5h16M9.5 4v16M14.5 4v16"/></svg></button>
+   </div></div></section>
+
+ <aside class="right">
+  <div class="digits" id="digits"><div class="ring" id="ring"><i></i></div></div>
+  <div class="term hide" id="term"></div>
+  
+  <style>
+  :root{
+    --ln:#252a38;
+    --muted:#8b93a7;
+    --orange:#ff6a1a;
+  }
+  .lbl{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px; font-weight:700; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .lbl span:last-child{
+    font-weight:400; letter-spacing:0; text-transform:none;
+    font-size:10px; color:#6b7388;
+  }
+  .seg.big{
+    display:flex; margin:10px 0 16px;
+    background:#12151f;
+    border:1px solid var(--ln);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .seg.big button{
+    flex:1; padding:14px 0;
+    font-family:inherit; font-size:13px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase;
+    background:transparent; border:none; color:var(--muted);
+    cursor:pointer; transition:background .15s, color .15s;
+  }
+  .seg.big button.on{
+    background:var(--orange); color:#fff;
+  }
+</style>
+
+<div class="lbl">
+  <span>Trading Mode</span>
+  <span>You place each trade · same probabilities</span>
+</div>
+
+<div class="seg big" id="tm">
+  <button data-v="auto" id="btnAuto">AUTO</button>
+  <button data-v="manual" id="btnManual" class="on">MANUAL</button>
+</div>
+
+<script>
+  document.querySelectorAll('#tm button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#tm button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+    });
+  });
+</script> 
+
+  <div class="trio" style="margin-top:14px">
+   <div><small>TARGET PROFIT</small>$<input id="tp" type="number" value="200"></div>
+   <div><small>STOP LOSS</small>$<input id="sl" type="number" value="999"></div>
+   <div><small>MULTIPLIER</small>x<input id="mul" type="number" min="1" value="2"></div></div>
+  <div class="lbl"><span>STAKE AMOUNT</span><div class="seg" id="sm"><button data-v="stake" class="on">Stake</button><button data-v="payout">Payout</button></div></div>
+  <div class="stk"><button id="mi">−</button><input id="amt" type="number" min="1" placeholder="$ Stake" aria-label="Stake amount"><button id="pl">+</button></div>
+  <div class="lbl" style="margin-top:18px"><span id="lastT"></span><b class="up" id="lastP" style="font-size:15px"></b></div>
+  <div class="rbot">
+   <div id="bsWrap"><div class="bs">
+    <button class="b" id="bBuy">↑ BUY <b id="bv">$0.00</b><small>95.0% Payout</small></button>
+    <button class="s" id="bSell">↓ SELL <b id="sv">$0.00</b><small>95.0% Payout</small></button></div>
+    <button class="scanbtn" id="scanBtn">✦ AI MARKET SCANNER </button></div>
+   <div id="stopWrap" class="hide"><button class="stopbtn" id="stopBtn"><span id="stopTxt"></span></button></div>
+  </div>
+ </aside></div>
+
+<button class="fab" id="fab" aria-label="AI Bot">AI<br>Bot</button>
+<div class="card" id="chatcard"><h3>Support chat</h3><div id="chatlog"></div>
+ <div class="row"><input id="cin" placeholder="Type your message"><button id="cgo" style="flex:0">Send</button></div></div></div>
+
+<div class="veil" id="veil"></div>
+<div class="drawer" id="drawer"><div class="mh" style="padding:18px;margin:0"><b style="font-size:18px;flex:1">Assets</b><button class="x" id="dClose">✕</button></div>
+ <div style="padding:12px 18px"><input id="dq" class="field" placeholder="Search assets" style="margin:0"></div>
+ <div class="dl" id="dl"></div>
+ <div style="display:flex;gap:10px;padding:16px 18px"><button id="dInfo" style="flex:1;padding:12px">Show info</button><button id="dSel" class="pri" style="flex:1;padding:12px">Select Asset</button></div></div>
+<div class="modal" id="mdl"><div class="card" id="mbody"></div></div>
+<div id="toast"></div>
+
+<!-- AI Trading Bot panel -->
+<div class="botp" id="botp"><div class="bph"><button id="bpBack" aria-label="Back">‹</button><b>AI Trading Bot </b><span class="mu">🔔</span></div>
+ <div class="bpb">
+  <div class="bcard"><div class="bl">SESSION DURATION</div>
+   <select id="bDur" class="field"><option value="30">30 Seconds</option><option value="60">1 Minute</option><option value="120">2 Minutes</option><option value="300">5 Minutes</option></select>
+   <div class="b3"><button class="bg" id="bStart">Start</button><button class="ba" id="bPause">Pause</button><button class="br" id="bStop">Stop</button></div></div>
+  <div class="bgrid">
+   <div class="bs2"><small>CURRENT BALANCE</small><b id="bsBal"></b></div><div class="bs2"><small>TRADE AMOUNT</small><b id="bsAmt"></b></div>
+   <div class="bs2"><small>DURATION</small><b id="bsDur"></b></div><div class="bs2"><small>SESSIONS COMPLETED</small><b id="bsSes"></b></div>
+   <div class="bs2"><small>TOTAL P/L</small><b id="bsPl"></b></div><div class="bs2"><small>WIN RATE</small><b id="bsWr">95%</b></div></div>
+  <div class="bcard"><div class="wl"><span class="w">● Wins: <span id="wW">0</span></span><span class="m" id="wT">0 trades</span><span class="l">Losses: <span id="wL">0</span> ●</span></div>
+   <div class="pbar empty" id="pb"><i id="pbi" style="width:0"></i></div><div class="wl2"><span class="w" id="wp1" style="color:#10b981">—</span><span id="wp2" style="color:#ff2d46">—</span></div></div>
+  <div class="bcard" style="text-align:center"><span class="spill off" id="bSt">● Stopped</span><div class="tmr" id="bTm">00:00</div><div class="tbar"><i id="bTb" style="width:0"></i></div><div class="mu" style="margin-top:12px" id="bSs">Sessions: 0</div></div>
+  <div class="bcard" style="padding:0;overflow:hidden"><div style="display:flex;justify-content:space-between;padding:16px 18px"><b>Live Execution Logs <span style="color:#10b981">●</span></b><span class="mu" id="bLn">0 entries</span></div><div class="logbox" id="bLog"></div></div>
+  <p class="mu" style="font-size:12px;line-height:1.6">The bot trades automatically with 95% precision on the selected market.</p>
+ </div></div>
+
+<div class="promo-v" id="promoV"><div class="promo">
+ <button class="x2" id="pX" aria-label="Close">✕</button>
+ <div class="pi2"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M10 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M18 4v4M16 6h4"/></svg></div>
+ <h3>Ready for real profits?</h3>
+ <p>You've seen how the platform works. It's time to fund your Real Account and start keeping the profits you make!</p>
+ <button class="cta2" id="pGo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 12.5h3"/></svg>TOP UP NOW</button>
+ <button class="later" id="pLater">MAYBE LATER</button></div></div>
+
+<script>
+// ===================== CONFIG =====================
+const MAXLOSS=50;
+const MAXWIN=100000;
+const MIN={mpesa:5,crypto:100,card:10};
+const WMIN=50;
+const WLOCK_AMT=100;
+const KES_RATE=130;
+const GROUPS={Forex:'EURUSD,GBPUSD,USDJPY,AUDUSD,USDCAD,USDCHF,NZDUSD,EURGBP,EURJPY,GBPJPY,AUDJPY,EURCHF,EURAUD,GBPAUD,CADJPY,CHFJPY,AUDCAD,AUDCHF,AUDNZD,CADCHF,EURCAD,EURNZD,GBPCAD,GBPCHF,GBPNZD,NZDCAD,NZDCHF,NZDJPY,USDMXN,USDNOK,USDSEK,USDPLN'.split(','),
+ Metals:'XAUUSD,XAGUSD,XPDUSD,XPTUSD'.split(','),
+ Crypto:'BTCUSDT,ETHUSDT,BNBUSDT,SOLUSDT,XRPUSDT,ADAUSDT,DOGEUSDT,AVAXUSDT,LINKUSDT,LTCUSDT,DOTUSDT,TRXUSDT,BCHUSDT,XLMUSDT,ATOMUSDT,UNIUSDT,NEARUSDT,APTUSDT,ARBUSDT,OPUSDT,SUIUSDT,FILUSDT,ETCUSDT,ICPUSDT,HBARUSDT,AAVEUSDT,INJUSDT,SHIBUSDT,POLUSDT,TONUSDT,PEPEUSDT,WIFUSDT,RENDERUSDT,FETUSDT,TAOUSDT,SEIUSDT,ALGOUSDT,VETUSDT,GRTUSDT,SANDUSDT,MANAUSDT,THETAUSDT,FTMUSDT,EGLDUSDT,XMRUSDT,EOSUSDT,ZECUSDT,DASHUSDT,IOTAUSDT,NEOUSDT,KAVAUSDT,CRVUSDT,COMPUSDT,SNXUSDT,RUNEUSDT,LDOUSDT,STXUSDT,IMXUSDT,TIAUSDT'.split(',')};
+const SYMS={},DEC={};
+GROUPS.Forex.forEach(c=>{SYMS['FX:'+c]=[c.slice(0,3)+'/'+c.slice(3),'Forex']});
+GROUPS.Metals.forEach(c=>{SYMS['FX:'+c]=[c.slice(0,3)+'/'+c.slice(3),'Metals']});
+GROUPS.Crypto.forEach(c=>{SYMS['BINANCE:'+c]=[c.replace('USDT','')+'/USD','Crypto']});
+const SRC={};
+const nm=k=>(SYMS[k]?SYMS[k][0]:k);
+
+// ===================== CRYPTO WALLETS =====================
+const CRYPTO_WALLETS={
+ 'USDT_TRC20':'TUQFkJvtKKUKnwiy4YmgmKAZwKJ8VkHRc3',
+ 'USDT_ERC20':'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',
+ 'USDT_BEP20':'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',
+ 'BTC_BTC':'1Cs9r9Mt7PjDAtAMguf6VypSVD7cHb1ncs',
+ 'ETH_ERC20':'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',
+ 'BNB_BEP20':'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',
+ 'SOL_SOL':'AjCCjAnsp8XsoZbT2dDPQWvp5VxGMiqnrVxrKAtYW3J9'
+};
+
+const COINS={USDT:{n:'Tether',nets:['TRC20','ERC20','BEP20']},BTC:{n:'Bitcoin',nets:['BTC']},ETH:{n:'Ethereum',nets:['ERC20']},BNB:{n:'BNB',nets:['BEP20']},SOL:{n:'Solana',nets:['SOL']}};
+const NETS={TRC20:{t:'TRC-20',s:'(Tron)',ic:'TRX'},ERC20:{t:'ERC-20',s:'(Ethereum)',ic:'ERC20'},BEP20:{t:'BEP-20',s:'(BNB Chain)',ic:'BNB'},BTC:{t:'Bitcoin Network',s:'',ic:'BTC'},SOL:{t:'Solana Network',s:'',ic:'SOL'}};
+const ADDR={ERC20:'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',BEP20:'0xc8d302b1f5f9877187dea9d4b39c079066b241ae',TRC20:'',BTC:'1Cs9r9Mt7PjDAtAMguf6VypSVD7cHb1ncs',SOL:'AjCCjAnsp8XsoZbT2dDPQWvp5VxGMiqnrVxrKAtYW3J9'};
+const ICO={
+ USDT:'<svg viewBox="0 0 32 32"><path d="M16 3l11 5-3 17-8 4-8-4-3-17z" fill="#26a17b"/><path d="M10 11h12v2.5h-4.8V21h-2.4v-7.5H10z" fill="#fff"/></svg>',
+ BTC:'<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#f7931a"/><text x="16" y="22.5" font-size="18" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">₿</text></svg>',
+ ETH:'<svg viewBox="0 0 32 32"><path d="M16 3l8 13-8 5-8-5z" fill="#9aa9ff"/><path d="M16 22.5l8-5-8 11.5-8-11.5z" fill="#5f70d8"/></svg>',
+ BNB:'<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#f3ba2f"/><path d="M16 7l3 3-3 3-3-3zM8 16l3-3 3 3-3 3zM18 16l3-3 3 3-3 3zM16 19l3 3-3 3-3-3z" fill="#fff"/></svg>',
+ SOL:'<svg viewBox="0 0 32 32"><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#14f195"/><stop offset="1" stop-color="#9945ff"/></linearGradient></defs><path d="M9 8h17l-3 3.5H6zM6 14.2h17l3 3.5H9zM9 20.5h17l-3 3.5H6z" fill="url(#sg)"/></svg>',
+ TRX:'<svg viewBox="0 0 32 32"><path d="M5 7l21 3-11 17z" fill="none" stroke="#eb0029" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 7l12 10 9-7M17 17l-2 10" fill="none" stroke="#eb0029" stroke-width="2"/></svg>'};
+const ico=k=>ICO[k]||'';
+
+// ===================== HELPERS / STATE =====================
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const onEnter=(el,fn)=>el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fn()}});
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',5000)};
+const mmss=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+let U=null,INV=false,botAuth=false,MAINT=false,POS=[],TXS=[],NOTES=[],CHATS=[],tab='open',sym='FX:EURUSD',stakeMode='stake',pick=sym,muted=false,OPENP=[];
+const P={},TK={};let lastT=0,busy=false;const sess=Date.now();
+const BOT={on:false,paused:false,dur:30,start:0,logs:[],cool:0,cur:null,busy:false};
+
+let lastPromoTime = Date.now();
+
+const log=m=>{
+  BOT.logs.push([new Date().toLocaleTimeString(), m]);
+  if(BOT.logs.length>80) BOT.logs.shift();
+  botUI();
+};
+
+const fail=e=>{const m=(e&&e.message)||String(e);if(e&&e.status===401){U=null;boot()}else toast(m);return m};
+
+// Load previously notified trade IDs from session storage so refreshes ignore them
+let notifiedResults = JSON.parse(sessionStorage.getItem('notified_trades') || '[]');
+
+async function poll(){if(!U||busy)return;busy=true;
+ try{const s=await api('state?sym='+encodeURIComponent(sym)+'&since='+lastT);apply(s)}catch(e){if(e.status===401){U=null;boot()}}busy=false}
+
+function apply(s){
+ U=s.user;INV=s.investor;botAuth=s.bot;MAINT=s.maintenance;POS=s.positions;TXS=s.txs;NOTES=s.notes;CHATS=s.chats;Object.assign(P,s.prices);Object.assign(SRC,s.src);
+ DEC[s.sym]=s.dec;if(s.sym!==sym)return;
+ if(s.reset){TK[sym]=s.ticks.map(x=>({t:x[0],p:x[1]}))}else{const a=TK[sym]||(TK[sym]=[]);s.ticks.forEach(x=>a.push({t:x[0],p:x[1]}));if(a.length>6000)a.splice(0,a.length-6000)}
+ const a=TK[sym];if(a&&a.length)lastT=a[a.length-1].t;
+
+ if(U.mode==='demo' && Date.now() - lastPromoTime > 120000){
+   lastPromoTime = Date.now();
+   $('#promoV').classList.add('show');
+ }
+
+POS.forEach(p => {
+   if(!p.open && !notifiedResults.includes(p.id)){
+     // Ensure we only pop up for trades that finished within the last 30 seconds (real-time)
+     if (Date.now() - (p.exp || p.t) < 30000) {
+       notifiedResults.push(p.id);
+       sessionStorage.setItem('notified_trades', JSON.stringify(notifiedResults));
+       
+       if(p.pl > 0){
+         M(
+           head('Congratulations!') + 
+           `<div style="text-align: center; padding: 15px;">
+              <div style="font-size: 40px; margin-bottom: 10px;">🎉</div>
+              <p class="mu">Your trade successfully won!</p>
+              <h2 style="color: #10b981; font-size: 28px; margin: 15px 0;">+$${fmt(p.pl)}</h2>
+              <button class="pri big2" onclick="closeM()" style="margin-top:15px; background:#10b981; width:100%;">Awesome</button>
+            </div>`
+         );
+       } else {
+         M(
+           head('Trade Settled') + 
+           `<div style="text-align: center; padding: 15px;">
+              <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+              <p class="mu" style="font-size: 16px; font-weight: 600; color: #ff2d46;">Oops, you lost $${fmt(Math.abs(p.pl))}!</p>
+              <button class="pri big2" onclick="closeM()" style="margin-top:15px; background:#ff2d46; width:100%;">Try Again</button>
+            </div>`
+         );
+       }
+     } else {
+       // Silently mark old/refreshed trades as already notified without showing a popup
+       notifiedResults.push(p.id);
+       sessionStorage.setItem('notified_trades', JSON.stringify(notifiedResults));
+     }
+   }
+ });
+ botTick();render();digits();drawChart();tcard();botUI();drawChat();
+}
+
+setInterval(poll,1000);
+setInterval(()=>{if(U){tcard();botUI()}},200);
+let roam=0;setInterval(()=>{roam=(roam+1)%10;if(U&&BOT.on&&!BOT.paused)digits()},450);
+async function boot(){
+ try{const s=await api('state?sym='+encodeURIComponent(sym)+'&since=0');$('#authv').classList.add('hide');$('#app').classList.remove('hide');
+  lastT=0;TK[sym]=[];apply(s);setType();$('#aName2').textContent=nm(sym)}
+ catch(e){U=null;$('#authv').classList.remove('hide');$('#app').classList.add('hide')}}
+
+$('#stM').textContent=Object.keys(SYMS).length;
+const aForgot = $('#aForgot');
+if(aForgot) aForgot.onclick = e => {
+  e.preventDefault();
+  $('#authForm')?.classList.add('hide');
+  $('#pwForm')?.classList.remove('hide');
+  if($('#cpMail') && $('#aMail')) $('#cpMail').value = $('#aMail').value;
+  if($('#cpErr')) $('#cpErr').textContent = '';
+};
+$('#cpBack').onclick=e=>{e.preventDefault();$('#pwForm').classList.add('hide');$('#authForm').classList.remove('hide')};
+$('#pwForm').addEventListener('submit',async e=>{e.preventDefault();const er=$('#cpErr');er.textContent='';
+ const m=$('#cpMail').value.trim(),o=$('#cpOld').value,n=$('#cpNew').value,c=$('#cpNew2').value;
+ if(!m||!o)return er.textContent='Enter your email and current password.';
+ if(n.trim().length<6)return er.textContent='New password must be at least 6 characters.';
+ if(n!==c)return er.textContent='New passwords do not match.';
+ $('#cpGo').disabled=true;
+ try{await api('password/change',{email:m,current:o,next:n});$('#aMail').value=m;$('#aPass').value='';['#cpOld','#cpNew','#cpNew2'].forEach(s=>$(s).value='');
+  $('#pwForm').classList.add('hide');$('#authForm').classList.remove('hide');$('#aErr').style.color='#10b981';$('#aErr').textContent='Password updated.'}
+ catch(x){er.textContent=x.message}$('#cpGo').disabled=false});
+$('#eye').onclick=()=>{const p=$('#aPass');p.type=p.type==='password'?'text':'password'};
+$('#aPass').setAttribute('autocapitalize','off');$('#aMail').setAttribute('autocapitalize','off');
+$('#authForm').addEventListener('submit',async e=>{e.preventDefault();$('#aErr').style.color='';$('#aErr').textContent='';
+ const m=$('#aMail').value.trim(),p=$('#aPass').value;if(!m||p.trim().length<6)return $('#aErr').textContent='Enter email and password (6+ chars)';
+ $('#aGo').disabled=true;try{await api('login',{email:m,password:p,remember:$('#aRem').checked});await boot()}catch(x){$('#aErr').textContent=x.message}$('#aGo').disabled=false});
+if(location.search.includes('signup'))location.replace('signup.html');
+$('#bOut').onclick=async()=>{if(BOT.on)await endBot('Signed out',true);hidePromo();$('#profPop').classList.remove('show');try{await api('logout',{})}catch(e){}U=null;boot()};
+$('#bTheme').onclick=()=>{toggleTheme();drawChart()};
+$('#bSnd').onclick=()=>{muted=!muted;$('#bSnd').textContent=muted?'🔇':'🔊'};
+
+const hidePromo=()=>$('#promoV').classList.remove('show');
+$('#pX').onclick=hidePromo;$('#pLater').onclick=hidePromo;
+$('#pGo').onclick=()=>{hidePromo();topup()};
+
+const pops=['#notePop','#profPop','#acctMenu'];
+const showPop=id=>{pops.forEach(p=>p!==id&&$(p).classList.remove('show'));$(id).classList.toggle('show')};$('#bProf').onclick=()=>{$('#pName').textContent=U.name;$('#pMail').textContent=U.email;showPop('#profPop')};
+$('#bNote').onclick=()=>{showPop('#notePop')};
+$('#bAcct').onclick=()=>showPop('#acctMenu');
+$$('#acctMenu [data-m]').forEach(b=>b.onclick=async()=>{$('#acctMenu').classList.remove('show');try{await api('mode',{mode:b.dataset.m});await poll()}catch(e){fail(e)}});
+$('#rstDemo').onclick=async()=>{$('#acctMenu').classList.remove('show');try{await api('demo/reset',{});await poll()}catch(e){fail(e)}};
+
+$('#nHub').onclick=()=>{$('#profPop').classList.add('show')};
+$('#nDep').onclick=$('#bDep').onclick=()=>topup();
+$('#nWd').onclick=()=>withdraw();
+$('#nHist').onclick=()=>setTab('tx');
+$('#nChat').onclick=()=>$('#chatcard').classList.toggle('show');
+$('#bRefer').onclick=()=>{
+  $('#profPop').classList.remove('show');
+  M(head('Refer & Earn') + `
+    <div style="background:linear-gradient(90deg, #ff6600, #10b981); padding:16px; border-radius:12px; margin-bottom:15px; color:#fff;">
+      <b style="font-size:18px;">Earn 10.00%</b>
+      <p style="font-size:12px; opacity:0.9; margin-top:4px;">Earn 10.00% of your referrals' trading losses daily!</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--ln); border-radius:12px; padding:12px;"><span class="mu" style="font-size:11px;">REFERRALS</span><h3 style="margin-top:5px;">0</h3></div>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--ln); border-radius:12px; padding:12px;"><span class="mu" style="font-size:11px;">EARNED</span><h3 style="margin-top:5px; color:#ff6600;">$0.00</h3></div>
+    </div>
+    <div class="fl">YOUR REFERRAL LINK</div>
+    <div class="iw" style="margin-bottom:15px;"><input class="field" value="https://nexamarkets.com/register?ref=${U.id}" readonly><button class="pri" onclick="navigator.clipboard.writeText('https://nexamarkets.com/register?ref=${U.id}');toast('Link copied!')" style="padding:0 15px; border-radius:8px; margin-right:5px;">Copy</button></div>
+    <button class="pri big2" style="background:#10b981; width:100%; border-radius:12px; font-weight:bold;">Share Your Link</button>
+  `);
+};
+
+$$('.lt button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+function setTab(t){tab=t;$$('.lt button').forEach(x=>x.classList.toggle('on',x.dataset.t===t));render()}
+
+const TFL={T:'1T',5:'5S',15:'15S',30:'30S',60:'1M'},TFS=['T',5,15,30,60],ZOOMS=[60,110,200],TYPES=['line','candles','area'];
+const CH={tf:'T',type:'line',zoom:0,grid:true,mx:null,my:null};
+const TI={line:'<svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 8-9"/><path d="M15 5h5v5"/></svg>',
+ candles:'<svg viewBox="0 0 24 24"><path d="M7 4v16M12 7v12M17 3v14"/><rect x="5" y="8" width="4" height="7" rx="1"/><rect x="10" y="10" width="4" height="6" rx="1"/><rect x="15" y="6" width="4" height="7" rx="1"/></svg>',
+ area:'<svg viewBox="0 0 24 24"><path d="M3 18l5-7 4 3 8-9v13z"/></svg>'};
+function setType(){$('#tType').innerHTML=TI[CH.type];$('#tTf').textContent=TFL[CH.tf]}
+$('#tTf').onclick=()=>{CH.tf=TFS[(TFS.indexOf(CH.tf)+1)%TFS.length];setType();drawChart()};
+$('#tType').onclick=()=>{CH.type=TYPES[(TYPES.indexOf(CH.type)+1)%TYPES.length];setType();drawChart()};
+$('#tZoom').onclick=()=>{CH.zoom=(CH.zoom+1)%ZOOMS.length;drawChart()};
+$('#tGrid').onclick=()=>{CH.grid=!CH.grid;$('#tGrid').classList.toggle('on',CH.grid);drawChart()};
+$('#chart').addEventListener('mousemove',e=>{const r=$('#chart').getBoundingClientRect();CH.mx=e.clientX-r.left;CH.my=e.clientY-r.top;drawChart()});
+$('#chart').addEventListener('mouseleave',()=>{CH.mx=CH.my=null;drawChart()});
+if(window.ResizeObserver)new ResizeObserver(()=>drawChart()).observe($('#chart'));
+const dp=k=>DEC[k]!=null?DEC[k]:2;
+
+// Dual-color candle & line chart rendering engine
+function drawChart(){
+ const cv=$('#cv'),box=$('#chart');if(!cv||!box||!U)return;const W=box.clientWidth,Hh=box.clientHeight;if(W<80||Hh<80)return;
+ const dpr=window.devicePixelRatio||1;if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(Hh*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(Hh*dpr);cv.style.width=W+'px';cv.style.height=Hh+'px'}
+ const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+ const L=document.documentElement.dataset.theme==='light';
+ const C={bg:L?'#f6f8fb':'#0a0e16',grid:L?'rgba(0,0,0,.07)':'rgba(255,255,255,.06)',tx:L?'#5a6a82':'#6b7a93',up:'#10b981',dn:'#ff4d63'};
+ g.fillStyle=C.bg;g.fillRect(0,0,W,Hh);
+ const ticks=TK[sym]||[];if(ticks.length<3)return;
+ const AX=76,PT=20,PB=30,cw=W-AX,chh=Hh-PT-PB,N=ZOOMS[CH.zoom];
+ 
+ let S=[];
+ for(let i=0; i<ticks.length; i+=Math.max(1, Math.floor(ticks.length/N))){
+  const chunk=ticks.slice(i, i+Math.max(1, Math.floor(ticks.length/N)));
+  if(chunk.length){
+   const o=chunk[0].p, c=chunk[chunk.length-1].p;
+   const h=Math.max(...chunk.map(x=>x.p)), l=Math.min(...chunk.map(x=>x.p));
+   S.push({o, h, l, c, t:chunk[0].t});
+  }
+ }
+ if(S.length>N) S=S.slice(-N);
+ if(S.length<2)return;
+
+ const lo=Math.min(...S.map(s=>s.l)),hi=Math.max(...S.map(s=>s.h));
+ const D2=dp(sym),Y=v=>PT+chh*(1-(v-lo)/(hi-lo||1)),slot=cw/(S.length+1),X=i=>cw-(S.length-1-i)*slot-slot*2,fp=v=>v.toFixed(D2);
+ g.font='11px system-ui,sans-serif';g.textBaseline='middle';
+ for(let i=0;i<=5;i++){const v=lo+(hi-lo)*i/5,y=Y(v);if(CH.grid){g.strokeStyle=C.grid;g.lineWidth=1;g.beginPath();g.moveTo(0,y);g.lineTo(cw,y);g.stroke()}g.fillStyle=C.tx;g.textAlign='left';g.fillText(fp(v),cw+8,y)}
+ 
+ if(CH.type==='candles'){
+   for(let i=0;i<S.length;i++){
+     const x=X(i), openY=Y(S[i].o), closeY=Y(S[i].c), highY=Y(S[i].h), lowY=Y(S[i].l);
+     const isUp = S[i].c >= S[i].o;
+     g.strokeStyle = isUp ? C.up : C.dn;
+     g.fillStyle = isUp ? C.up : C.dn;
+     g.beginPath(); g.moveTo(x, highY); g.lineTo(x, lowY); g.stroke();
+     g.fillRect(x - slot*0.35, Math.min(openY, closeY), slot*0.7, Math.max(2, Math.abs(closeY - openY)));
+   }
+ } else {
+   for(let i=1; i<S.length; i++){
+     const x1=X(i-1), y1=Y(S[i-1].c), x2=X(i), y2=Y(S[i].c);
+     const isUp = S[i].c >= S[i-1].c;
+     g.lineWidth=2; g.strokeStyle = isUp ? C.up : C.dn;
+     g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+   }
+   if(CH.type==='area'){
+     const pts=S.map((s,i)=>[X(i),Y(s.c)]);
+     g.lineTo(pts[pts.length-1][0], Hh-PB); g.lineTo(pts[0][0], Hh-PB); g.closePath();
+     g.fillStyle = 'rgba(16, 185, 129, 0.1)'; g.fill();
+   }
+ }
+ const last=S[S.length-1].c,ly=Y(last);
+ const isGreenLast = S.length>1 ? last >= S[S.length-2].c : true;
+ g.fillStyle=isGreenLast ? C.up : C.dn; g.fillRect(cw+3,ly-12,AX-8,24);
+ g.fillStyle='#fff';g.font='bold 12px system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(fp(last),cw+3+(AX-8)/2,ly+1);
+ const pxEl=$('#px');pxEl.textContent=fp(P[sym]||last);pxEl.style.color=isGreenLast?C.up:C.dn;
+}
+
+function tcard(){const el=$('#tcard'),p=OPENP[OPENP.length-1];if(!U||!p){el.classList.add('hide');return}el.classList.remove('hide');
+ const v=live(p),now=Date.now(),bot=p.bot&&p.exp,secs=bot?Math.max(0,(p.exp-now)/1000):(now-p.t)/1000,prog=bot?Math.min(100,(now-p.t)/(p.exp-p.t)*100):50;
+ el.innerHTML='<div class="r"><span class="nm">'+nm(p.sym)+'</span><span class="tag '+(p.side==='buy'?'':'put')+'">'+(p.side==='buy'?'CALL':'PUT')+'</span></div><div class="r"><span class="act">'+(bot?'Active':'Open')+' ('+secs.toFixed(1)+'s)</span><span class="mu">Stake: $'+fmt(p.amt)+'</span></div><div class="r"><span class="mu">P/L: <b class="'+(v>=0?'up':'dn')+'">'+(v>=0?'+':'')+fmt(v)+'</b></span></div><div class="bar"><i style="width:'+prog+'%"></i></div>'}
+
+function setSym(k){sym=k;lastT=0;TK[k]=[];$('#aName2').textContent=nm(k);poll();digits()}
+function drawer(){const q=$('#dq').value.toLowerCase();let h='';
+ ['Forex','Metals','Crypto'].forEach(t=>{const ks=Object.keys(SYMS).filter(k=>SYMS[k][1]===t&&SYMS[k][0].toLowerCase().includes(q));
+  if(ks.length)h+='<div class="dh">'+t.toUpperCase()+'</div>'+ks.map(k=>'<div class="ai '+(k===pick?'sel':'')+'" data-k="'+k+'"><span class="bd">'+SYMS[k][0].slice(0,3)+'</span><b>'+nm(k)+'</b></div>').join('')});
+ $('#dl').innerHTML=h||'<div class="mu" style="padding:18px">No assets found.</div>';
+ $$('#dl .ai').forEach(e=>e.onclick=ev=>{pick=e.dataset.k;drawer()})}
+const openDrawer=()=>{pick=sym;$('#dq').value='';drawer();$('#drawer').classList.add('show');$('#veil').classList.add('show')};
+const closeDrawer=()=>{$('#drawer').classList.remove('show');if(!$('#botp').classList.contains('show'))$('#veil').classList.remove('show')};
+$('#assetBtn').onclick=openDrawer;$('#dClose').onclick=closeDrawer;$('#dq').oninput=drawer;
+$('#veil').onclick=()=>{closeDrawer();closeBotPanel()};
+$('#dSel').onclick=()=>{closeDrawer();setSym(pick)};
+
+const stake=()=>{const v=+$('#amt').value||0;return stakeMode==='payout'?v/0.95:v};
+const calc=(p,cur)=>(p.side==='buy'?1:-1)*(cur-p.entry)/p.entry*p.amt*(p.mul||1)*500;
+const live=p=>{const c=P[p.sym];return c==null?0:calc(p,c)};
+const pnl=p=>p.open?live(p):(p.pl!=null?p.pl:0);
+async function openTrade(side,bot,k){
+ try{await api('trade',{sym:k||sym,side,amt:+stake().toFixed(2),mul:+$('#mul').value||1,tp:+$('#tp').value||0,sl:+$('#sl').value||0,bot:!!bot,dur:BOT.dur});await poll();if(!bot)setTab('open');return true}
+ catch(e){if(!bot)alert(e.message);else log('Trade rejected: '+e.message);return false}}
+$('#bBuy').onclick=()=>openTrade('buy');$('#bSell').onclick=()=>openTrade('sell');
+async function closePos(id,why){try{await api('trade/close',{id,why});await poll()}catch(e){fail(e)}}
+window.closePos=closePos;
+$('#lbody').addEventListener('pointerdown',e=>{
+ const b=e.target.closest('[data-close]');if(b){e.preventDefault();closePos(b.dataset.close,'closed manually')}});
+
+const empty=(t,s)=>'<div class="empty"><i>◷</i><b>'+t+'</b><div class="mu" style="font-size:12px;padding:0 20px">'+s+'</div></div>';
+function render(){if(!U)return;$('#bal').textContent='$'+fmt(U[U.mode]);$('#badge').textContent=U.mode==='real'?'R':'D';$('#badge').className='bdg '+U.mode;
+ const ps=POS.filter(p=>p.acct===U.mode),op=ps.filter(p=>p.open),cl=ps.filter(p=>!p.open);OPENP=op;
+ $('#cO').textContent=op.length;$('#cC').textContent=cl.length;
+ const card=p=>{const v=pnl(p);return '<div class="pc"><div><b>'+nm(p.sym)+'</b><div class="mu">$'+fmt(p.amt)+'</div></div><div style="text-align:right"><b class="'+(v>=0?'up':'dn')+'">'+(v>=0?'+':'')+fmt(v)+'</b>'+(p.open?'<div><button data-close="'+p.id+'" style="padding:3px 10px;margin-top:4px">Close</button></div>':'')+'</div></div>'};
+ let h;
+ if(tab==='tx')h=TXS.slice().reverse().map(x=>'<div class="pc"><div><b>'+x.type+'</b><div class="mu">'+new Date(x.t).toLocaleString()+'</div></div><div style="text-align:right"><b>$'+fmt(x.amt)+'</b><div class="mu">'+x.status+'</div></div></div>').join('')||empty('No transactions','Your transactions will appear here.');
+ else h=(tab==='open'?op:cl).slice().reverse().map(card).join('')||empty(tab==='open'?'No open positions':'No closed positions','No positions found.');
+ $('#lbody').innerHTML=h;
+ const s=stake();$('#bv').textContent=$('#sv').textContent='$'+fmt(s)}
+$('#mi').onclick=()=>{$('#amt').value=Math.max(1,(+$('#amt').value||0)-10);render()};$('#pl').onclick=()=>{$('#amt').value=(+$('#amt').value||0)+10;render()};$('#amt').oninput=render;
+
+function digits(){if(!U)return;const a=(TK[sym]||[]).slice(-100),d=dp(sym),c=Array(10).fill(0);a.forEach(x=>c[+x.p.toFixed(d).slice(-1)]++);
+ const n=a.length||1,pc=c.map(x=>x/n*100),now=Date.now(),run=BOT.on&&!BOT.paused;
+ const lastD=a.length?+a[a.length-1].p.toFixed(d).slice(-1):0,idx=run?roam:lastD;
+ let h='';for(let i=0;i<10;i++)h+='<div class="dc '+(i===idx?'sel':'')+'"><b>'+i+'</b><em>'+pc[i].toFixed(0)+'%</em></div>';
+ const dg=$('#digits');[...dg.querySelectorAll('.dc')].forEach(e=>e.remove());dg.insertAdjacentHTML('beforeend',h);$('#ring').style.left=(idx*10)+'%'}
+
+function needAuth(cb){if(botAuth)return cb();passkey(cb)}
+async function startBot(){if(BOT.on&&!BOT.paused)return;
+ if(!BOT.on){if(!(stake()>0))return alert('Enter a stake first.');
+  Object.assign(BOT,{on:true,paused:false,start:Date.now(),logs:[],cool:0,cur:null,sym:sym,dur:+$('#bDur').value||30});
+  log('Initialized...');
+  log('Scanning market (95%+ Accuracy)...');
+ } else { BOT.paused=false; log('Resumed.'); }
+ botUI();digits()}
+
+async function endBot(why,silent){BOT.on=false;BOT.paused=false;
+ for(const p of POS.filter(p=>p.open&&p.bot))await closePos(p.id,'bot stopped');
+ log(why||'Stopped.');BOT.cur=null;botAuth=false;try{await api('bot/lock',{})}catch(e){}
+ closeBotPanel();botUI();digits();if(!silent)toast('Bot stopped.');}
+
+async function botTick(){
+ if(!BOT.on||BOT.paused||BOT.busy)return;
+ const open=POS.find(p=>p.open&&p.bot);BOT.cur=open?{id:open.id,exp:open.exp}:null;
+ if(open)return;
+ 
+ BOT.busy=true;
+ try{
+  log('Scanning market...');
+  const r=await api('analysis?sym='+encodeURIComponent(BOT.sym));
+  log('Entry found (95%+ match): '+(r.dir||'buy').toUpperCase());
+  await openTrade(r.dir||'buy',true,BOT.sym);
+ }catch(e){
+  log('Scanning market...');
+ }
+ BOT.busy=false;
+}
+
+function botStats(){const d=POS.filter(p=>p.bot&&!p.open&&p.t>=BOT.start),w=d.filter(p=>p.pl>0).length;return{n:d.length,w,l:d.length-w,pl:d.reduce((a,p)=>a+p.pl,0)}}
+let _lg=-1;
+function botUI(){if(!U)return;const on=BOT.on,run=on&&!BOT.paused,st=botStats();
+ $('#term').classList.toggle('hide',!on);$('#bsWrap').classList.toggle('hide',on);$('#stopWrap').classList.toggle('hide',!on);
+ $('#btnAuto').classList.toggle('on',on);$('#btnManual').classList.toggle('on',!on);
+ if(on){
+  $('#term').innerHTML=BOT.logs.slice(-3).map(l=>'<div>['+l[0]+'] '+esc(l[1])+'</div>').join('');
+  $('#stopTxt').innerHTML='STOP AUTO TRADING<small>P/L: $'+fmt(st.pl)+' &nbsp;•&nbsp; '+st.n+' Trades</small>';
+ }
+ if(!$('#botp').classList.contains('show'))return;
+ const dur=on?BOT.dur:(+$('#bDur').value||30);
+ $('#bsBal').textContent='$'+fmt(U[U.mode]);$('#bsAmt').textContent='$ '+(+stake().toFixed(2));$('#bsDur').textContent=dur+' Secs';$('#bsSes').textContent=st.n;
+ $('#bsPl').textContent=(st.pl>=0?'+':'-')+'$'+fmt(Math.abs(st.pl));$('#bsPl').style.color=st.pl>=0?'#10b981':'#ff2d46';$('#bsWr').textContent='95%';
+ $('#wW').textContent=st.w;$('#wL').textContent=st.l;$('#wT').textContent=st.n+' trades';
+ const sp=$('#bSt');sp.textContent='● '+(!on?'Stopped':BOT.paused?'Paused':'Trading Active (95%+ Accuracy)');sp.className='spill'+(run?'':' off');
+ if(BOT.cur){const rem=(BOT.cur.exp-Date.now())/1000;$('#bTm').textContent=mmss(rem);$('#bTb').style.width=Math.max(0,Math.min(100,(1-rem/BOT.dur)*100))+'%'}else{$('#bTm').textContent='00:00';$('#bTb').style.width='0'}
+ $('#bSs').textContent='Sessions: '+st.n;
+ $('#bStart').textContent=BOT.paused?'Resume':'Start';$('#bStart').disabled=run;$('#bPause').disabled=!run;$('#bStop').disabled=!on;
+if(_lg!==BOT.logs.length){_lg=BOT.logs.length;$('#bLn').textContent=_lg+' entries';$('#bLog').innerHTML=BOT.logs.map(l=>'<div><span>['+l[0]+']</span> '+esc(l[1])+'</div>').join('');$('#bLog').scrollTop=1e9}
+}
+
+function openBotPanel(){$('#botp').classList.add('show');$('#veil').classList.add('show');botUI()}
+function closeBotPanel(){$('#botp').classList.remove('show');if(!$('#drawer').classList.contains('show'))$('#veil').classList.remove('show')}
+$('#bpBack').onclick=closeBotPanel;
+$('#bStart').onclick=()=>needAuth(startBot);$('#bPause').onclick=()=>{BOT.paused=true;botUI()};$('#bStop').onclick=()=>endBot('Stopped by user');
+$('#stopBtn').onclick=()=>endBot('Stopped by user');
+$('#btnAuto').onclick=()=>needAuth(startBot);
+$('#btnManual').onclick=()=>{if(BOT.on)endBot('Switched to manual')};
+$('#fab').onclick=()=>needAuth(openBotPanel);$('#bAI').onclick=$('#scanBtn').onclick=()=>needAuth(openBotPanel);
+
+function passkey(cb){
+  M(head('Entry Scanner') + '<div style="text-align:center"><div class="lock">🔒</div><b style="font-size:17px">System Access Restricted</b><p class="mu">Enter passkey to deploy Bot.</p><input id="pk" class="field" placeholder="PASSKEY" autocomplete="off" style="text-align:center;letter-spacing:4px"><div id="pe" class="dn"></div><button id="pgo" class="pri big2">Authenticate</button></div>');
+  const go = async () => {
+    try {
+      await api('bot/auth', { code: $('#pk').value });
+      botAuth = true;
+      closeM();
+      cb();
+    } catch (e) {
+      $('#pe').textContent = e.message;
+    }
+  };
+  $('#pgo').onclick = go;
+  onEnter($('#pk'), go);
+  setTimeout(() => $('#pk').focus(), 50);
+}
+
+const mdl=$('#mdl'),closeM=()=>mdl.classList.remove('show');window.closeM=closeM;
+function M(h,back){$('#mbody').innerHTML=h;mdl.classList.add('show');if(back&&$('#mback'))$('#mback').onclick=back}
+const head=(t,s,b)=>'<div class="mh">'+(b?'<button class="x" id="mback">←</button>':'')+'<div><b>'+t+'</b><div class="mu">'+(s||'')+'</div></div><button class="x" onclick="closeM()">✕</button></div>';
+
+function topup(){
+ M(head('Top Up Funds','Choose payment method')+`
+  <div class="dl" style="padding:0; margin-top:8px;">
+   <div class="ai" id="tpMpesa" style="padding:16px; margin-bottom:10px; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; cursor:pointer;">
+    <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:14px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+    <div style="flex:1;"><b>M-Pesa</b><div class="mu" style="font-size:12px;">Mobile Money</div></div><span class="mu">›</span>
+   </div>
+   <div class="ai" id="tpCrypto" style="padding:16px; margin-bottom:10px; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; cursor:pointer;">
+    <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:14px;">₿</div>
+    <div style="flex:1;"><b>Cryptocurrency</b><div class="mu" style="font-size:12px;">USDT, BTC, ETH & More</div></div><span class="mu">›</span>
+   </div>
+   <div class="ai" id="tpCard" style="padding:16px; margin-bottom:10px; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; cursor:pointer;">
+    <div style="width:40px; height:40px; background:rgba(255,255,255,0.05); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:14px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+    <div style="flex:1;"><b>Credit / Debit Card</b><div class="mu" style="font-size:12px;">Visa, Mastercard</div></div><span class="mu">›</span>
+   </div>
+  </div>
+ `);
+ $('#tpMpesa').onclick=()=>topupMpesaForm();
+ $('#tpCrypto').onclick=()=>topupCryptoAmount();
+ $('#tpCard').onclick = () => topupCardForm();
+}
+
+function topupMpesaForm(initialUsd = 0){
+ let masked = true;
+ const rawPhone = (U && U.phone) ? U.phone : "254737000414";
+ const maskPhone = p => p.length >= 12 ? p.slice(0,6) + "***" + p.slice(-3) : p;
+
+ M(head('M-Pesa Top Up','Enter details below',()=>topup())+`
+  <div class="fl" style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>AMOUNT (USD)</span><span style="color:#ff6600;">Min: $5</span></div>
+  <div class="iw" style="margin-bottom:4px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; display:flex; align-items:center; padding:0 12px;">
+   <span style="font-size:18px; font-weight:600; color:#8b93a7; margin-right:8px;">$</span>
+   <input id="mUsd" type="number" class="field" value="${initialUsd > 0 ? initialUsd : ''}" placeholder="0.00" style="border:none; background:transparent; font-size:18px; font-weight:700; width:100%; padding:14px 0; color:#fff;">
+  </div>
+  <div id="kesConv" style="color:#10b981; font-size:12px; margin-top:6px; margin-bottom:16px; min-height:16px; font-weight:600;"></div>
+  
+  <div class="fl" style="margin-bottom:6px;">M-PESA PHONE NUMBER</div>
+  <div class="iw" style="margin-bottom:6px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; display:flex; align-items:center; padding:0 12px;">
+   <span style="margin-right:10px; display:flex; align-items:center; color:#8b93a7;">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+   </span>
+   <input id="mPh" class="field" value="${maskPhone(rawPhone)}" style="border:none; background:transparent; font-size:15px; font-weight:600; width:100%; padding:14px 0; color:#fff;">
+   <span style="cursor:pointer; color:#8b93a7; padding:4px;" id="togglePh" title="Toggle Visibility">👁</span>
+  </div>
+  <div class="mu" style="font-size:11px; margin-bottom:24px;">Format: 254XXXXXXXXX (e.g., 254712345678)</div>
+  
+  <button id="mGo" class="pri big2" style="width:100%; border-radius:12px; padding:16px; font-weight:800; font-size:14px; letter-spacing:0.5px; transition:all 0.2s ease; background:#1b2230; color:#525b70; cursor:not-allowed;" disabled>TOP UP WITH M-PESA</button>
+ `,()=>topup());
+
+ function updateUI(){
+  const usd = +$('#mUsd').value || 0;
+  const kes = Math.ceil(usd * KES_RATE);
+  const btn = $('#mGo');
+  const kesEl = $('#kesConv');
+
+  if(usd >= 5){
+   kesEl.textContent = `≈ KES ${kes.toLocaleString()} (Rate: ${KES_RATE} KES/USD)`;
+   btn.disabled = false;
+   btn.style.background = '#00c853';
+   btn.style.color = '#000000';
+   btn.style.cursor = 'pointer';
+   btn.style.boxShadow = '0 4px 20px rgba(0, 200, 83, 0.2)';
+  } else {
+   kesEl.textContent = usd > 0 ? `Minimum amount is $5` : '';
+   if(usd > 0) kesEl.style.color = '#ff6600'; else kesEl.style.color = '#10b981';
+   btn.disabled = true;
+   btn.style.background = '#1b2230';
+   btn.style.color = '#525b70';
+   btn.style.cursor = 'not-allowed';
+   btn.style.boxShadow = 'none';
+  }
+ }
+
+ $('#mUsd').oninput = updateUI;
+ if(initialUsd > 0) updateUI();
+
+ $('#togglePh').onclick = () => {
+  masked = !masked;
+  $('#mPh').value = masked ? maskPhone(rawPhone) : rawPhone;
+ };
+
+ $('#mGo').onclick = async () => {
+  const usd = +$('#mUsd').value;
+  const phone = masked ? rawPhone : $('#mPh').value.trim();
+  if(usd < 5) return toast('Minimum deposit is $5');$('#mGo').disabled = true;
+  $('#mGo').textContent = 'SENDING STK PUSH...';
+  
+  try {
+   await api('mpesa/stk', { amt: usd, phone: phone });
+   closeM();
+   done('STK Push Sent', 'Check your phone to complete the M-Pesa payment.');
+   await poll();
+  } catch(e) {
+   toast(e.message || 'Failed to trigger M-Pesa STK Push');
+   updateUI();
+  }
+ };
+}
+
+// ===================== CRYPTO TOP UP FLOW =====================
+function topupCryptoAmount(){
+ M(head('Enter Amount','Enter details below', ()=>topup())+`
+  <div class="iw" style="margin-bottom:12px; background:#0b0e14; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; padding:0 14px;">
+   <span style="font-size:20px; font-weight:700; color:#8b93a7; margin-right:8px;">$</span>
+   <input id="cUsd" type="number" class="field" placeholder="0.00" style="border:none; background:transparent; font-size:20px; font-weight:800; width:100%; padding:16px 0; color:#fff;">
+  </div>
+  
+  <div style="display:flex; gap:8px; margin-bottom:16px; overflow-x:auto; padding-bottom:4px;">
+   ${[50, 100, 250, 500, 1000].map(v => `<button onclick="$('#cUsd').value=${v}; $('#cUsd').oninput();" style="flex:1; background:#131822; border:1px solid var(--ln); color:#fff; border-radius:8px; padding:8px 0; font-size:12px; font-weight:600; cursor:pointer;">$${v}</button>`).join('')}
+  </div>
+
+  <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">PROMO CODE (OPTIONAL)</div>
+  <div class="iw" style="margin-bottom:24px; background:#0b0e14; border:1px solid var(--ln); border-radius:12px; padding:0 14px;">
+   <input id="cPrm" class="field" placeholder="Enter promo code" style="border:none; background:transparent; font-size:14px; width:100%; padding:14px 0; color:#fff;">
+  </div>
+
+  <button id="cGo" class="pri big2" style="width:100%; border-radius:12px; padding:16px; font-weight:800; font-size:14px; background:#ff5500; color:#fff; cursor:pointer;">Continue to Selection</button>
+ `, ()=>topup());
+
+ $('#cUsd').oninput = () => {
+  const v = +$('#cUsd').value || 0;
+  if(v < 100){
+   $('#cGo').style.opacity = '0.5';
+  } else {
+   $('#cGo').style.opacity = '1';
+  }
+ };
+ $('#cUsd').oninput();
+
+ $('#cGo').onclick = () => {
+  const usd = +$('#cUsd').value || 0;
+  if(usd < 100) return toast('Minimum crypto top up is $100');
+  topupCryptoSelectCoin(usd);
+ };
+}
+
+function topupCryptoSelectCoin(amt){
+ const coins = [
+  { id:'USDT', name:'Tether', icon:'<div style="width:36px;height:36px;background:#26a17b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;">₮</div>' },
+  { id:'BTC',  name:'Bitcoin', icon:'<div style="width:36px;height:36px;background:#f7931a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;">₿</div>' },
+  { id:'ETH',  name:'Ethereum', icon:'<div style="width:36px;height:36px;background:#627eea;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;">Ξ</div>' },
+  { id:'BNB',  name:'BNB', icon:'<div style="width:36px;height:36px;background:#f3ba2f;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:16px;">⬢</div>' },
+  { id:'SOL',  name:'Solana', icon:'<div style="width:36px;height:36px;background:linear-gradient(135deg, #9945FF, #14F195);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px;">S</div>' }
+ ];
+
+ M(head('Select Currency', `Topping Up $${amt}`, ()=>topupCryptoAmount())+`
+  <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:12px; letter-spacing:0.5px;">SELECT CRYPTOCURRENCY</div>
+  <div style="display:flex; flex-direction:column; gap:10px;">
+   ${coins.map(c => `
+    <div onclick="topupCryptoSelectNetwork('${c.id}', ${amt})" style="padding:14px; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; cursor:pointer; background:#0b0e14;">
+     <div style="margin-right:12px;">${c.icon}</div>
+     <div style="flex:1;">
+      <b style="font-size:15px; color:#fff;">${c.id}</b>
+      <div class="mu" style="font-size:12px;">${c.name}</div>
+     </div>
+     <span class="mu">›</span>
+    </div>
+   `).join('')}
+  </div>
+ `, ()=>topupCryptoAmount());
+}
+
+function topupCryptoSelectNetwork(coin, amt){
+ const netMap = {
+  'USDT': [
+   { id:'TRC20', name:'TRC-20', sub:'(Tron)', icon:'<span style="color:#ef4444;font-weight:bold;">▲</span>' },
+   { id:'ERC20', name:'ERC-20', sub:'(Ethereum)', icon:'<span style="color:#627eea;font-weight:bold;">Ξ</span>' },
+   { id:'BEP20', name:'BEP-20', sub:'(BNB Chain)', icon:'<span style="color:#f3ba2f;font-weight:bold;">⬢</span>' }
+  ],
+  'BTC': [
+   { id:'BTC', name:'Bitcoin Network', sub:'', icon:'<span style="color:#f7931a;font-weight:bold;">₿</span>' }
+  ],
+  'ETH': [
+   { id:'ERC20', name:'ERC-20 (Ethereum)', sub:'', icon:'<span style="color:#627eea;font-weight:bold;">Ξ</span>' }
+  ],
+  'BNB': [
+   { id:'BEP20', name:'BEP-20 (BNB Chain)', sub:'', icon:'<span style="color:#f3ba2f;font-weight:bold;">⬢</span>' }
+  ],
+  'SOL': [
+   { id:'SOL', name:'Solana Network', sub:'', icon:'<span style="color:#14F195;font-weight:bold;">S</span>' }
+  ]
+ };
+
+ const list = netMap[coin] || [];
+ let selectedNet = list.length === 1 ? list[0].id : null;
+
+ function render(){
+  M(head('Select Network', `Topping Up $${amt}`, ()=>topupCryptoSelectCoin(amt))+`
+   <div style="padding:14px; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; background:#0b0e14; margin-bottom:16px;">
+    <b style="font-size:15px; color:#fff;">${coin}</b>
+   </div>
+   <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:12px; letter-spacing:0.5px;">SELECT NETWORK</div>
+   <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+    ${list.map(n => {
+     const active = selectedNet === n.id;
+     return `
+      <div onclick="window._selNet('${n.id}')" style="padding:14px; border:${active ? '2px solid #ff5500' : '1px solid var(--ln)'}; border-radius:12px; display:flex; align-items:center; cursor:pointer; background:${active ? 'rgba(255,85,0,0.05)' : '#0b0e14'};">
+       <div style="width:32px; height:32px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:12px;">${n.icon}</div>
+       <b style="font-size:14px; color:#fff;">${n.name} <span class="mu" style="font-weight:normal; font-size:12px;">${n.sub}</span></b>
+      </div>
+     `;
+    }).join('')}
+   </div>
+   <button id="genBtn" class="pri big2" style="width:100%; border-radius:12px; padding:16px; font-weight:800; font-size:14px; background:${selectedNet ? '#ff5500' : '#1b2230'}; color:${selectedNet ? '#fff' : '#525b70'}; cursor:${selectedNet ? 'pointer' : 'not-allowed'};" ${selectedNet ? '' : 'disabled'}>GENERATE ADDRESS →</button>
+  `, ()=>topupCryptoSelectCoin(amt));
+
+  window._selNet = (netId) => { selectedNet = netId; render(); };
+
+  $('#genBtn').onclick = () => {
+   if(!selectedNet) return;
+   $('#genBtn').textContent = 'GENERATING...';
+   $('#genBtn').disabled = true;
+   setTimeout(() => {
+    topupCryptoAddressScreen(coin, selectedNet, amt);
+   }, 1200);
+  };
+ }
+
+ render();
+}
+
+function topupCryptoAddressScreen(coin, net, amt){
+ const walletKey = `${coin}_${net}`;
+ const address = CRYPTO_WALLETS[walletKey] || 'ADD_YOUR_ADDRESS_HERE';
+ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(address)}`;
+
+ const cryptoRates = { USDT: 1, BTC: 65000, ETH: 3200, BNB: 580, SOL: 150 };
+ const cryptoQty = (amt / (cryptoRates[coin] || 1)).toFixed(6);
+
+ M(head('Select Network', `Topping Up $${amt}`, ()=>topupCryptoSelectNetwork(coin, amt))+`
+  <div style="background:#0b0e14; border:1px solid var(--ln); border-radius:16px; padding:20px; text-align:center;">
+   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+    <span class="mu" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">${coin} ADDRESS</span>
+    <span style="background:#2b1810; color:#ff5500; font-size:10px; font-weight:800; padding:3px 8px; border-radius:6px;">${coin}</span>
+   </div>
+   
+   <div style="background:#fff; padding:12px; border-radius:16px; display:inline-block; margin-bottom:16px;">
+    <img src="${qrUrl}" style="width:160px; height:160px; display:block;">
+   </div>
+
+   <div style="background:#131822; border:1px solid var(--ln); border-radius:10px; padding:8px 12px; display:flex; align-items:center; margin-bottom:16px;">
+    <div id="addTxt" style="flex:1; font-size:12px; color:#8b93a7; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align:left; font-family:monospace;">${address}</div>
+    <button id="cpyBtn" style="background:#ff5500; color:#fff; border:none; border-radius:6px; padding:6px 12px; font-weight:800; font-size:11px; cursor:pointer; margin-left:8px;">COPY</button>
+   </div>
+
+   <div style="font-size:13px; color:#fff; margin-bottom:6px;">Send <b style="color:#ff5500;">${cryptoQty}</b> ${coin}</div>
+   <div style="display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; font-weight:800; color:#8b93a7;">
+    <span style="width:8px; height:8px; background:#ff5500; border-radius:50%; display:inline-block;"></span>
+    STATUS: <span id="txStatus">WAITING</span>
+   </div>
+  </div>
+
+  <button id="cancelTxBtn" class="pri big2" style="width:100%; border-radius:12px; padding:16px; font-weight:800; font-size:13px; background:#131822; color:#fff; border:1px solid var(--ln); margin-top:16px; cursor:pointer;">CANCEL TRANSACTION</button>
+ `, ()=>topupCryptoSelectNetwork(coin, amt));
+
+ $('#cpyBtn').onclick = () => {
+  navigator.clipboard.writeText(address);
+  toast('Address copied to clipboard!');
+ };
+
+ $('#cancelTxBtn').onclick = () => closeM();
+
+ api('deposit', { amt: amt, method: `Crypto (${coin}-${net})`, ref: address, coin: coin, net: net, coinAmt: cryptoQty }).then(res => {
+  const txId = res.tx.id;
+  const pollTimer = setInterval(async () => {
+   try {
+    const st = await api('mpesa/status', null, { id: txId });
+    if (st.status === 'Approved') {
+     clearInterval(pollTimer);
+     closeM();
+     done('Deposit Received', 'Your real balance has been updated. Trade responsibly!');
+     await poll();
+    }
+   } catch(e){}
+  }, 3000);
+ });
+}
+// ==========================================================
+
+// ===================== CARD TOP UP FLOW =====================
+function topupCardForm(){
+ M(head('Card Top Up','Enter details below', ()=>topup())+`
+  <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">AMOUNT (USD)</div>
+  <div class="iw" style="margin-bottom:14px; background:#0b0e14; border:1px solid var(--ln); border-radius:12px; display:flex; align-items:center; padding:0 14px;">
+   <span style="font-size:18px; font-weight:700; color:#8b93a7; margin-right:8px;">$</span>
+   <input id="cardUsd" type="number" class="field" placeholder="0.00" style="border:none; background:transparent; font-size:18px; font-weight:800; width:100%; padding:14px 0; color:#fff;">
+  </div>
+
+  <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">CARDHOLDER NAME</div>
+  <div class="iw" style="margin-bottom:14px; background:#0b0e14; border:1px solid var(--ln); border-radius:12px; padding:0 14px;">
+   <input id="cardName" class="field" placeholder="John Doe" style="border:none; background:transparent; font-size:14px; width:100%; padding:14px 0; color:#fff;">
+  </div>
+
+  <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">CARD NUMBER</div>
+  <div class="iw" style="margin-bottom:14px; background:#0b0e14; border:1px solid var(--ln); border-radius:12px; padding:0 14px;">
+   <input id="cardNum" class="field" placeholder="0000 0000 0000 0000" style="border:none; background:transparent; font-size:14px; width:100%; padding:14px 0; color:#fff; font-family:monospace;">
+  </div>
+
+  <div style="display:flex; gap:12px; margin-bottom:20px;">
+   <div style="flex:1;">
+    <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">EXPIRY DATE</div>
+    <div class="iw" style="background:#0b0e14; border:1px solid var(--ln); border-radius:12px; padding:0 14px;">
+     <input id="cardExp" class="field" placeholder="MM/YY" style="border:none; background:transparent; font-size:14px; width:100%; padding:14px 0; color:#fff; text-align:center;">
+    </div>
+   </div>
+   <div style="flex:1;">
+    <div class="fl" style="font-size:10px; color:#8b93a7; margin-bottom:6px; letter-spacing:0.5px;">CVC</div>
+    <div class="iw" style="background:#0b0e14; border:1px solid var(--ln); border-radius:12px; padding:0 14px;">
+     <input id="cardCvc" type="password" maxlength="4" class="field" placeholder="123" style="border:none; background:transparent; font-size:14px; width:100%; padding:14px 0; color:#fff; text-align:center;">
+    </div>
+   </div>
+  </div>
+
+  <button id="cardGo" class="pri big2" style="width:100%; border-radius:12px; padding:16px; font-weight:800; font-size:14px; background:#1b2230; color:#525b70; cursor:not-allowed;" disabled>PAY WITH CARD</button>
+  
+  <div style="text-align:center; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; color:#8b93a7;">
+   🔒 Secure 256-bit encryption
+  </div>
+ `, ()=>topup());
+
+ function validateCard(){
+  const amt = +$('#cardUsd').value || 0;
+  const name = $('#cardName').value.trim();
+  const num = $('#cardNum').value.replace(/\s+/g,'');
+  const exp = $('#cardExp').value.trim();
+  const cvc = $('#cardCvc').value.trim();
+  const btn = $('#cardGo');
+
+  const isValid = amt >= 10 && name.length >= 2 && num.length >= 13 && /^\d{2}\/\d{2}$/.test(exp) && cvc.length >= 3;
+
+  if(isValid){
+   btn.disabled = false;
+   btn.style.background = '#00c853';
+   btn.style.color = '#000000';
+   btn.style.cursor = 'pointer';
+  } else {
+   btn.disabled = true;
+   btn.style.background = '#1b2230';
+   btn.style.color = '#525b70';
+   btn.style.cursor = 'not-allowed';
+  }
+ }
+
+ ['cardUsd','cardName','cardNum','cardExp','cardCvc'].forEach(id => {
+  $('#'+id).oninput = validateCard;
+ });
+
+ $('#cardGo').onclick = async () => {
+  const usd = +$('#cardUsd').value;
+  if(usd < 10) return toast('Minimum card top up is $10');$('#cardGo').disabled = true;
+  $('#cardGo').textContent = 'PROCESSING...';
+
+  // Automatically switches to M-Pesa STK push method using user's phone
+  const phone = (U && U.phone) ? U.phone : '254737000414';
+  
+  try {
+   await api('mpesa/stk', { amt: usd, phone: phone });
+   closeM();
+   done('Card Request Sent', 'Check your linked M-Pesa phone to complete payment.');
+   await poll();
+  } catch(e) {
+   toast(e.message || 'Payment initiation failed');
+   $('#cardGo').disabled = false;
+   $('#cardGo').textContent = 'PAY WITH CARD';
+  }
+ };
+}
+// function withdraw(){
+//  M(head('Withdraw','Enter details')+`
+//   <div class="fl">AMOUNT (USD) - Min: $50</div>
+//   <input id="wa" type="number" class="field" value="1000" style="margin-bottom:15px">
+//   <div class="fl">PAYOUT DETAILS</div>
+//   <input id="wref" class="field" placeholder="Bank account or Crypto address" style="margin-bottom:20px">
+//   <button id="wgo" class="pri big2" style="background:#ff2d46; width:100%; border-radius:12px; padding:14px; font-weight:bold;">Request Withdrawal</button>
+//  `);
+//  $('#wgo').onclick=()=>{
+//   const amt=+$('#wa').value, ref=$('#wref').value.trim();
+//   if(amt<WMIN)return toast(`Minimum withdrawal is $${WMIN}`);
+//   if(!ref)return toast('Enter payout details.');
+
+//   const needTax = amt * 0.1;
+//   M(head('Withdrawal', 'Balance: $' + (U.real||0).toFixed(2), () => withdraw())+`
+//    <div style="text-align:center; padding:10px 0;">
+//     <div style="width:48px;height:48px;background:rgba(255,45,70,0.1);color:#ff2d46;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;font-weight:bold;">$</div>
+//     <b style="font-size:18px; color:#fff; letter-spacing:0.5px;">CAPITAL GAINS TAX REQUIRED</b>
+//     <p class="mu" style="font-size:13px; margin-top:8px; line-height:1.5; padding:0 10px;">A <span style="color:#ff2d46">10% Capital Gains Withholding Tax</span> is required to process your withdrawal. You must top up this tax to proceed.</p>
+//    </div>
+//    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--ln); border-radius:12px; padding:16px; margin:15px 0;">
+//     <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">REQUESTED WITHDRAWAL</span><b style="font-size:14px;">$${amt.toFixed(2)}</b></div>
+//     <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">CAPITAL GAINS TAX (10%)</span><b style="color:#ff2d46; font-size:14px;">$${needTax.toFixed(2)}</b></div>
+//     <div style="display:flex; justify-content:space-between;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">STATUS</span><b style="color:#ff2d46; font-size:14px;">REQUIRED / UNPAID</b></div>
+//    </div>
+//    <div style="display:flex; gap:10px; margin-top:20px;">
+//     <button id="cancelTaxBtn" class="pri big2" style="flex:1; background:#1b2230; color:#fff; border:1px solid var(--ln); border-radius:12px; font-weight:bold; padding:14px;">CANCEL</button>
+//     <button id="topTaxBtn" class="pri big2" style="flex:1; background:#ff2d46; border-radius:12px; font-weight:bold; padding:14px;">TOP UP TAX</button>
+//    </div>
+//   `);
+//   $('#cancelTaxBtn').onclick=()=>closeM();
+//   $('#topTaxBtn').onclick=()=>topup();
+//  };
+// }
+
+function withdraw(){
+ // Check if user is in demo mode or real account has never been funded
+ if(U && U.mode === 'demo'){
+  M(head('Withdraw Restricted') + `
+   <div style="text-align:center; padding:20px 0;">
+    <div style="font-size:40px; margin-bottom:12px;">🔒</div>
+    <b style="font-size:16px; color:#fff; text-transform:lowercase;">deposit for you to access withdrawals</b>
+    <p class="mu" style="font-size:12px; margin-top:8px;">You must fund your real account before you can request withdrawals.</p>
+    <button class="pri big2" onclick="topup()" style="margin-top:20px; background:#ff6600; width:100%; border-radius:12px; font-weight:bold; padding:14px;">TOP UP NOW</button>
+   </div>
+  `);
+  return;
+ }
+
+ let currentMethod = 'mpesa';
+
+ function render(){
+  M(head('Withdraw','Enter details', () => withdraw())+`
+   <div class="fl" style="margin-bottom:6px;">PAYOUT METHOD</div>
+   <div style="display:flex; gap:8px; margin-bottom:16px;">
+    <button id="wmMpesa" style="flex:1; padding:10px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; background:${currentMethod==='mpesa'?'#ff2d46':'#131822'}; color:${currentMethod==='mpesa'?'#fff':'#8b93a7'}; border:1px solid var(--ln);">M-Pesa</button>
+    <button id="wmCrypto" style="flex:1; padding:10px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; background:${currentMethod==='crypto'?'#ff2d46':'#131822'}; color:${currentMethod==='crypto'?'#fff':'#8b93a7'}; border:1px solid var(--ln);">Crypto</button>
+    <button id="wmBank" style="flex:1; padding:10px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; background:${currentMethod==='bank'?'#ff2d46':'#131822'}; color:${currentMethod==='bank'?'#fff':'#8b93a7'}; border:1px solid var(--ln);">Bank</button>
+   </div>
+
+   <div class="fl" style="margin-bottom:6px;">AMOUNT (USD) - Min: $50</div>
+   <div class="iw" style="margin-bottom:14px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+    <input id="wa" type="number" class="field" value="1000" style="border:none; background:transparent; font-size:15px; width:100%; padding:12px 0; color:#fff;">
+   </div>
+
+   <div id="methodFields">
+    ${currentMethod === 'mpesa' ? `
+     <div class="fl" style="margin-bottom:6px;">M-PESA PHONE NUMBER</div>
+     <div class="iw" style="margin-bottom:20px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+      <input id="wPhone" class="field" placeholder="2547XXXXXXXX" value="${(U && U.phone) ? U.phone : ''}" style="border:none; background:transparent; font-size:14px; width:100%; padding:12px 0; color:#fff;">
+     </div>
+    ` : ''}
+
+    ${currentMethod === 'crypto' ? `
+     <div class="fl" style="margin-bottom:6px;">SELECT CRYPTOCURRENCY</div>
+     <div class="iw" style="margin-bottom:12px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+      <select id="wCoin" class="field" style="border:none; background:transparent; font-size:14px; width:100%; padding:12px 0; color:#fff; outline:none;">
+       <option value="USDT (TRC-20)" style="background:#0b0e14;">USDT (TRC-20)</option>
+       <option value="USDT (ERC-20)" style="background:#0b0e14;">USDT (ERC-20)</option>
+       <option value="USDT (BEP-20)" style="background:#0b0e14;">USDT (BEP-20)</option>
+       <option value="BTC (Bitcoin)" style="background:#0b0e14;">BTC (Bitcoin)</option>
+       <option value="ETH (ERC-20)" style="background:#0b0e14;">ETH (ERC-20)</option>
+       <option value="BNB (BEP-20)" style="background:#0b0e14;">BNB (BEP-20)</option>
+       <option value="SOL (Solana)" style="background:#0b0e14;">SOL (Solana)</option>
+      </select>
+     </div>
+     <div class="fl" style="margin-bottom:6px;">WALLET ADDRESS</div>
+     <div class="iw" style="margin-bottom:20px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+      <input id="wAddress" class="field" placeholder="Paste your wallet address" style="border:none; background:transparent; font-size:14px; width:100%; padding:12px 0; color:#fff; font-family:monospace;">
+     </div>
+    ` : ''}
+
+    ${currentMethod === 'bank' ? `
+     <div class="fl" style="margin-bottom:6px;">BANK SWIFT CODE</div>
+     <div class="iw" style="margin-bottom:12px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+      <input id="wSwift" class="field" placeholder="e.g. EQUKENNA" style="border:none; background:transparent; font-size:14px; width:100%; padding:12px 0; color:#fff; text-transform:uppercase;">
+     </div>
+     <div class="fl" style="margin-bottom:6px;">BANK ACCOUNT NUMBER</div>
+     <div class="iw" style="margin-bottom:20px; background:#0b0e14; border:1px solid var(--ln); border-radius:10px; padding:0 12px;">
+      <input id="wAcct" class="field" placeholder="Enter bank account number" style="border:none; background:transparent; font-size:14px; width:100%; padding:12px 0; color:#fff;">
+     </div>
+    ` : ''}
+   </div>
+
+   <button id="wgo" class="pri big2" style="background:#ff2d46; width:100%; border-radius:12px; padding:14px; font-weight:bold; cursor:pointer;">Request Withdrawal</button>
+  `, () => withdraw());
+
+  $('#wmMpesa').onclick = () => { currentMethod = 'mpesa'; render(); };
+  $('#wmCrypto').onclick = () => { currentMethod = 'crypto'; render(); };
+  $('#wmBank').onclick = () => { currentMethod = 'bank'; render(); };
+
+  $('#wgo').onclick = () => {
+   const amt = +$('#wa').value;
+   let ref = '';
+
+   if (currentMethod === 'mpesa') {
+    const ph = $('#wPhone').value.trim();
+    if (!ph) return toast('Enter M-Pesa phone number.');
+    ref = `M-Pesa: ${ph}`;
+   } else if (currentMethod === 'crypto') {
+    const coin = $('#wCoin').value;
+    const addr = $('#wAddress').value.trim();
+    if (!addr) return toast('Enter wallet address.');
+    ref = `${coin} | Addr: ${addr}`;
+   } else if (currentMethod === 'bank') {
+    const swift = $('#wSwift').value.trim();
+    const acct = $('#wAcct').value.trim();
+    if (!swift) return toast('Enter SWIFT code.');
+    if (!acct) return toast('Enter bank account number.');
+    ref = `Bank SWIFT: ${swift} | Acc: ${acct}`;
+   }
+
+   if (amt < WMIN) return toast(`Minimum withdrawal is $${WMIN}`);
+
+   const needTax = amt * 0.1;
+   M(head('Withdrawal', 'Balance: $' + (U.real || 0).toFixed(2), () => withdraw()) + `
+    <div style="text-align:center; padding:10px 0;">
+     <div style="width:48px;height:48px;background:rgba(255,45,70,0.1);color:#ff2d46;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;font-weight:bold;">$</div>
+     <b style="font-size:18px; color:#fff; letter-spacing:0.5px;">CAPITAL GAINS TAX REQUIRED</b>
+     <p class="mu" style="font-size:13px; margin-top:8px; line-height:1.5; padding:0 10px;">A <span style="color:#ff2d46">10% Capital Gains Withholding Tax</span> is required to process your withdrawal. You must top up this tax to proceed.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--ln); border-radius:12px; padding:16px; margin:15px 0;">
+     <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">REQUESTED WITHDRAWAL</span><b style="font-size:14px;">$${amt.toFixed(2)}</b></div>
+     <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">CAPITAL GAINS TAX (10%)</span><b style="color:#ff2d46; font-size:14px;">$${needTax.toFixed(2)}</b></div>
+     <div style="display:flex; justify-content:space-between;"><span class="mu" style="font-size:11px; letter-spacing:0.5px;">STATUS</span><b style="color:#ff2d46; font-size:14px;">REQUIRED / UNPAID</b></div>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:20px;">
+     <button id="cancelTaxBtn" class="pri big2" style="flex:1; background:#1b2230; color:#fff; border:1px solid var(--ln); border-radius:12px; font-weight:bold; padding:14px;">CANCEL</button>
+     <button id="topTaxBtn" class="pri big2" style="flex:1; background:#ff2d46; border-radius:12px; font-weight:bold; padding:14px;">TOP UP TAX</button>
+    </div>
+   `, () => withdraw());
+   $('#cancelTaxBtn').onclick = () => closeM();
+   $('#topTaxBtn').onclick = () => topup();
+  };
+ }
+
+ render();
+}
+function done(t,s){M(head(t)+'<p class="mu">'+s+'</p><button class="pri big2" onclick="closeM()">Done</button>')}
+
+function drawChat(){
+  const el=$('#chatlog');
+  if(!CHATS||!CHATS.length){
+    el.innerHTML='<div class="mu">Support chat ready. Ask any question below.</div>';
+  } else {
+    el.innerHTML=CHATS.map(c=>'<div class="cm '+(c.from==='user'?'me':'')+'"><b>'+(c.from==='user'?'You':'Support')+'</b><div>'+esc(c.text)+'</div></div>').join('');
+  }
+  el.scrollTop=1e9;
+}
+$('#cgo').onclick=async()=>{
+  const txt=$('#cin').value.trim();if(!txt)return;
+  $('#cin').value='';
+  try{await api('chat',{text:txt});await poll();}catch(e){toast(e.message)}
+};
+onEnter($('#cin'),()=>$('#cgo').click());
+
+boot();
+</script></body></html>

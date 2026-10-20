@@ -1,0 +1,160 @@
+<!-- <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NexaMarkets Admin</title>
+<link rel="stylesheet" href="../assets/style.css"><script src="../assets/common.js"></script>
+<style>
+#login{min-height:100vh;display:grid;place-items:center;background:#060a14;padding:20px}
+#login .box{width:min(400px,100%);background:#111826;border:1px solid #1c2638;border-radius:16px;padding:30px}
+#login h1{margin:0 0 20px;font-size:22px;color:#fff}
+#login label{display:block;margin:14px 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8b97ab}
+#login input{display:block;width:100%;height:50px;padding:0 14px;font-size:16px;color:#fff;background:#0b1220;border:1px solid #243049;border-radius:10px;outline:0}
+#login input:focus{border-color:#2f6bff}
+#login .pw{position:relative}#login .pw button{position:absolute;right:6px;top:7px;height:36px;border:0;background:none;color:#8b97ab;font-size:13px}
+#login .go{width:100%;height:52px;margin-top:20px;border:0;border-radius:10px;background:#2f6bff;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+#e{color:#ff5c6e;margin-top:12px;min-height:18px;font-size:14px}
+.adm{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}.adm .wide{grid-column:1/-1}
+@media(max-width:900px){.adm{grid-template-columns:1fr}}
+.ok{color:var(--up);min-height:18px;font-size:13px}
+</style></head><body>
+<div id="login" class="hide"><form class="box" id="lf" autocomplete="on">
+ <h1>NexaMarkets Admin</h1>
+ <label for="m">USERNAME</label><input id="m" name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" autofocus>
+ <label for="p">PASSWORD</label><div class="pw"><input id="p" name="password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false"><button type="button" id="eye">Show</button></div>
+ <div id="e"></div><button class="go" type="submit">Sign in</button></form></div>
+
+<div id="app" class="hide"><header><div class="logo">Nexa<b>Markets</b> Admin</div>
+ <label><input type="checkbox" id="mtc"> Maintenance mode</label><button class="ic" id="th" aria-label="Toggle theme">◐</button><button id="pwb">Change my password</button><button id="out">Sign out</button></header>
+<div class="adm">
+ <div class="card"><h3>Pending deposits &amp; withdrawals</h3><div class="scroll" id="tx"></div></div>
+ <div class="card"><h3>Support chats</h3><div id="ch"></div></div>
+ <div class="card"><h3>Assist a withdrawal</h3><p class="mu" style="margin:0 0 6px">Submit a withdrawal for a user who is having trouble. It appears in the pending list for approval.</p>
+  <select id="au" class="field"></select><select id="am" class="field"><option>M-Pesa</option><option>Crypto</option><option>Card</option></select>
+  <input id="aa" type="number" class="field" placeholder="Amount (USD)"><input id="ad" class="field" placeholder="Payout details (phone / wallet / card ref)"><div id="ae" class="dn"></div><button class="pri big2" id="ago">Submit for user</button></div>
+ <div class="card"><h3>Send notification</h3><p class="mu" style="margin:0 0 6px">Only messages sent here appear in users' notification bell.</p><select id="to" class="field"></select><textarea id="nt" rows="3" style="width:100%" placeholder="Message to users"></textarea><div id="ne" class="dn"></div><button class="pri" id="sn" style="margin-top:6px">Send</button></div>
+ <div class="card wide"><h3>Users (<span id="uc">0</span>)</h3><div class="scroll" id="us"></div></div>
+ <div class="card wide"><h3>All transactions</h3><div class="scroll" id="all"></div></div>
+</div></div>
+<div class="modal" id="mdl"><div class="card" id="mbody"></div></div>
+<script>
+const $=s=>document.querySelector(s);let USERS=[],busy=false;
+const closeM=()=>$('#mdl').classList.remove('show');
+const modal=h=>{$('#mbody').innerHTML=h;$('#mdl').classList.add('show')};
+const fill=(id,h)=>{const e=$(id),v=e.value;e.innerHTML=h;if([...e.options].some(o=>o.value===v))e.value=v};
+async function boot(){try{await load();$('#login').classList.add('hide');$('#app').classList.remove('hide')}catch(e){$('#app').classList.add('hide');$('#login').classList.remove('hide');setTimeout(()=>$('#m').focus(),50)}}
+$('#eye').onclick=()=>{const p=$('#p');p.type=p.type==='password'?'text':'password';$('#eye').textContent=p.type==='password'?'Show':'Hide'};
+$('#lf').onsubmit=async e=>{e.preventDefault();$('#e').textContent='';try{await api('admin/login',{username:$('#m').value,password:$('#p').value});$('#p').value='';boot()}catch(x){$('#e').textContent=x.message}};
+$('#out').onclick=async()=>{try{await api('logout',{})}catch(e){}boot()};$('#th').onclick=toggleTheme;
+$('#mtc').onchange=async e=>{try{await api('admin/maintenance',{on:e.target.checked})}catch(x){alert(x.message)}};
+$('#sn').onclick=async()=>{$('#ne').textContent='';try{await api('admin/note',{text:$('#nt').value,to:$('#to').value||null});$('#nt').value='';load()}catch(x){$('#ne').textContent=x.message}};
+$('#ago').onclick=async()=>{$('#ae').textContent='';try{await api('admin/withdraw',{uid:$('#au').value,method:$('#am').value,amt:+$('#aa').value,ref:$('#ad').value});$('#aa').value=$('#ad').value='';load()}catch(x){$('#ae').textContent=x.message}};
+async function decide(id,ok){try{await api('admin/tx',{id,ok});load()}catch(x){alert(x.message)}}
+async function reply(uid){const i=document.getElementById('r'+uid);if(!i.value.trim())return;try{await api('admin/chat',{uid,text:i.value});i.value='';load()}catch(x){alert(x.message)}}
+function bal(uid,f){const u=USERS.find(x=>x.id===uid);const v=prompt(`New ${f} balance for ${u?u.email:''}`,u?u[f]:'');if(v===null||isNaN(+v))return;api('admin/balance',{uid,field:f,value:+v}).then(load).catch(x=>alert(x.message))}
+function resetPw(uid){const u=USERS.find(x=>x.id===uid);modal(`<div class="mh"><div><b>Reset password</b><div class="mu">${esc(u.email)}</div></div><button class="x" onclick="closeM()">✕</button></div>
+ <input id="np" class="field" type="text" placeholder="New password (6+ characters)" autocomplete="off"><div id="re" class="dn"></div><button class="pri big2" id="rgo">Set password</button>`);
+ $('#rgo').onclick=async()=>{try{await api('admin/reset',{uid,next:$('#np').value});closeM();alert('Password updated. Share it with the user; they can change it after signing in.')}catch(x){$('#re').textContent=x.message}}}
+$('#pwb').onclick=()=>{modal(`<div class="mh"><div><b>Change admin password</b></div><button class="x" onclick="closeM()">✕</button></div>
+ <input id="p0" class="field" type="password" placeholder="Current password" autocomplete="current-password"><input id="p1" class="field" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"><input id="p2" class="field" type="password" placeholder="Confirm new password" autocomplete="new-password">
+ <div id="re" class="dn"></div><button class="pri big2" id="rgo">Update password</button>`);
+ $('#rgo').onclick=async()=>{if($('#p1').value.trim()!==$('#p2').value.trim())return $('#re').textContent='New passwords do not match.';
+  try{await api('password',{current:$('#p0').value,next:$('#p1').value});closeM();alert('Admin password updated.')}catch(x){$('#re').textContent=x.message}}};
+Object.assign(window,{decide,reply,bal,resetPw,closeM});
+const when=t=>new Date(t).toLocaleString();
+async function load(){if(busy)return;busy=true;let d;try{d=await api('admin/state')}finally{busy=false}
+ USERS=d.users;const um=Object.fromEntries(d.users.map(u=>[u.id,u]));const nm=id=>um[id]?esc(um[id].email):'(deleted)';$('#mtc').checked=d.maintenance;$('#uc').textContent=d.users.length;
+ const opts=d.users.map(u=>`<option value="${u.id}">${esc(u.email)}</option>`).join('');fill('#to','<option value="">All users</option>'+opts);fill('#au',opts||'<option value="">No users yet</option>');
+ const p=d.txs.filter(t=>t.status==='Pending');
+ $('#tx').innerHTML=p.length?'<table><tr><th>When<th>User<th>Type<th>Method<th>Amount<th>Details<th></tr>'+p.map(t=>`<tr><td>${when(t.t)}<td>${nm(t.uid)}<td>${t.type}<td>${esc(t.method)}<td>$${fmt(t.amt)}${t.coinAmt?`<br><small class="mu">${esc(t.coinAmt)} ${esc(t.coin)}</small>`:''}<td style="word-break:break-all;max-width:180px">${esc(t.ref)}<td><button onclick="decide('${t.id}',true)">Approve</button> <button onclick="decide('${t.id}',false)">Reject</button></tr>`).join('')+'</table>':'<div class="mu">Nothing pending.</div>';
+ // keep a half-typed reply: only redraw the chat list when no reply box is focused / has text
+ const typing=document.activeElement&&document.activeElement.id&&document.activeElement.id.startsWith('r')&&document.activeElement.tagName==='INPUT'||[...document.querySelectorAll('#ch input')].some(i=>i.value);
+ if(!typing)$('#ch').innerHTML=d.chats.map(c=>`<div class="note"><b>${nm(c.uid)}</b> ${c.esc?'<span class="dn">needs admin</span>':''}${c.msgs.map(x=>`<div class="mu">${x.from}: ${esc(x.text)}</div>`).join('')}<div class="row"><input id="r${c.uid}" placeholder="Reply"><button style="flex:0" onclick="reply('${c.uid}')">Send</button></div></div>`).join('')||'<div class="mu">No chats yet.</div>';
+ $('#us').innerHTML='<table><tr><th>Name<th>Email<th>Phone<th>Real<th>Demo<th>Open<th>Joined<th></tr>'+d.users.map(u=>`<tr><td>${esc(u.name)}<td>${esc(u.email)}<td>${esc(u.phone)}<td>$${fmt(u.real)}<td>$${fmt(u.demo)}<td>${u.open}<td>${when(u.created)}<td style="white-space:nowrap"><button onclick="bal('${u.id}','real')">Edit real</button> <button onclick="bal('${u.id}','demo')">Edit demo</button> <button onclick="resetPw('${u.id}')">Reset password</button></tr>`).join('')+'</table>'+(d.users.length?'':'<div class="mu">No users yet.</div>');
+ $('#all').innerHTML='<table><tr><th>When<th>User<th>Type<th>Method<th>Amount<th>Status</tr>'+d.txs.slice(0,60).map(t=>`<tr><td>${when(t.t)}<td>${nm(t.uid)}<td>${t.type}<td>${esc(t.method)}<td>$${fmt(t.amt)}<td>${t.status}</tr>`).join('')+'</table>'}
+setInterval(()=>{if(!$('#app').classList.contains('hide')&&!$('#mdl').classList.contains('show'))load().catch(e=>{if(e.status===401)boot()})},3000);
+boot();
+</script></body></html> -->
+
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NexaMarkets Admin</title>
+<link rel="stylesheet" href="../assets/style.css"><script src="../assets/common.js"></script>
+<style>
+#login{min-height:100vh;display:grid;place-items:center;background:#060a14;padding:20px}
+#login .box{width:min(400px,100%);background:#111826;border:1px solid #1c2638;border-radius:16px;padding:30px}
+#login h1{margin:0 0 20px;font-size:22px;color:#fff}
+#login label{display:block;margin:14px 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8b97ab}
+#login input{display:block;width:100%;height:50px;padding:0 14px;font-size:16px;color:#fff;background:#0b1220;border:1px solid #243049;border-radius:10px;outline:0}
+#login input:focus{border-color:#2f6bff}
+#login .pw{position:relative}#login .pw button{position:absolute;right:6px;top:7px;height:36px;border:0;background:none;color:#8b97ab;font-size:13px}
+#login .go{width:100%;height:52px;margin-top:20px;border:0;border-radius:10px;background:#2f6bff;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+#e{color:#ff5c6e;margin-top:12px;min-height:18px;font-size:14px}
+.adm{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}.adm .wide{grid-column:1/-1}
+@media(max-width:900px){.adm{grid-template-columns:1fr}}
+.ok{color:var(--up);min-height:18px;font-size:13px}
+</style></head><body>
+<div id="login" class="hide"><form class="box" id="lf" autocomplete="on">
+ <h1>NexaMarkets Admin</h1>
+ <label for="m">USERNAME</label><input id="m" name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" autofocus>
+ <label for="p">PASSWORD</label><div class="pw"><input id="p" name="password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false"><button type="button" id="eye">Show</button></div>
+ <div id="e"></div><button class="go" type="submit">Sign in</button></form></div>
+
+<div id="app" class="hide"><header><div class="logo">Nexa<b>Markets</b> Admin</div>
+ <label><input type="checkbox" id="mtc"> Maintenance mode</label><button class="ic" id="th" aria-label="Toggle theme">◐</button><button id="pwb">Change my password</button><button id="out">Sign out</button></header>
+<div class="adm">
+ <div class="card"><h3>Pending deposits &amp; withdrawals</h3><div class="scroll" id="tx"></div></div>
+ <div class="card"><h3>Support chats</h3><div id="ch"></div></div>
+ <div class="card"><h3>Assist a withdrawal</h3><p class="mu" style="margin:0 0 6px">Submit a withdrawal for a user who is having trouble. It appears in the pending list for approval.</p>
+  <select id="au" class="field"></select><select id="am" class="field"><option>M-Pesa</option><option>Crypto</option><option>Card</option></select>
+  <input id="aa" type="number" class="field" placeholder="Amount (USD)"><input id="ad" class="field" placeholder="Payout details (phone / wallet / card ref)"><div id="ae" class="dn"></div><button class="pri big2" id="ago">Submit for user</button></div>
+ <div class="card"><h3>Send notification</h3><p class="mu" style="margin:0 0 6px">Only messages sent here appear in users' notification bell.</p><select id="to" class="field"></select><textarea id="nt" rows="3" style="width:100%" placeholder="Message to users"></textarea><div id="ne" class="dn"></div><button class="pri" id="sn" style="margin-top:6px">Send</button></div>
+ <div class="card wide"><h3>Users (<span id="uc">0</span>)</h3><div class="scroll" id="us"></div></div>
+ <div class="card wide"><h3>All transactions</h3><div class="scroll" id="all"></div></div>
+</div></div>
+<div class="modal" id="mdl"><div class="card" id="mbody"></div></div>
+<script>
+const $=s=>document.querySelector(s);let USERS=[],busy=false;
+const closeM=()=>$('#mdl').classList.remove('show');
+const modal=h=>{$('#mbody').innerHTML=h;$('#mdl').classList.add('show')};
+const fill=(id,h)=>{const e=$(id),v=e.value;e.innerHTML=h;if([...e.options].some(o=>o.value===v))e.value=v};
+async function boot(){try{await load();$('#login').classList.add('hide');$('#app').classList.remove('hide')}catch(e){$('#app').classList.add('hide');$('#login').classList.remove('hide');setTimeout(()=>$('#m').focus(),50)}}
+$('#eye').onclick=()=>{const p=$('#p');p.type=p.type==='password'?'text':'password';$('#eye').textContent=p.type==='password'?'Show':'Hide'};
+$('#lf').onsubmit=async e=>{e.preventDefault();$('#e').textContent='';try{await api('admin/login',{username:$('#m').value,password:$('#p').value});$('#p').value='';boot()}catch(x){$('#e').textContent=x.message}};
+$('#out').onclick=async()=>{try{await api('logout',{})}catch(e){}boot()};$('#th').onclick=toggleTheme;
+$('#mtc').onchange=async e=>{try{await api('admin/maintenance',{on:e.target.checked})}catch(x){alert(x.message)}};
+$('#sn').onclick=async()=>{$('#ne').textContent='';try{await api('admin/note',{text:$('#nt').value,to:$('#to').value||null});$('#nt').value='';load()}catch(x){$('#ne').textContent=x.message}};
+$('#ago').onclick=async()=>{$('#ae').textContent='';try{await api('admin/withdraw',{uid:$('#au').value,method:$('#am').value,amt:+$('#aa').value,ref:$('#ad').value});$('#aa').value=$('#ad').value='';load()}catch(x){$('#ae').textContent=x.message}};
+async function decide(id,ok){try{await api('admin/tx',{id,ok});load()}catch(x){alert(x.message)}}
+async function reply(uid){const i=document.getElementById('r'+uid);if(!i.value.trim())return;try{await api('admin/chat',{uid,text:i.value});i.value='';load()}catch(x){alert(x.message)}}
+async function hold(uid,on){try{await api('admin/hold',{uid,on});load()}catch(x){alert(x.message)}}
+function bal(uid,f){
+ const u=USERS.find(x=>String(x.id)===String(uid));if(!u)return;
+ modal(`<div class="mh"><div><b>Edit ${f} balance</b><div class="mu">${esc(u.email)}</div></div><button class="x" onclick="closeM()">✕</button></div>
+ <input id="bv" class="field" type="number" step="0.01" value="${u[f]}" placeholder="New ${f} balance (USD)">
+ <div id="be" class="dn"></div><button class="pri big2" id="bgo">Save balance</button>`);
+ $('#bv').focus();
+ $('#bgo').onclick=async()=>{
+  const v=$('#bv').value.trim();
+  if(v===''||isNaN(+v)){$('#be').textContent='Enter a valid number.';return}
+  try{await api('admin/balance',{uid:u.id,field:f,value:+v});closeM();load()}
+  catch(x){$('#be').textContent=x.message}
+ };
+}
+function resetPw(uid){const u=USERS.find(x=>x.id===uid);modal(`<div class="mh"><div><b>Reset password</b><div class="mu">${esc(u.email)}</div></div><button class="x" onclick="closeM()">✕</button></div>
+ <input id="np" class="field" type="text" placeholder="New password (6+ characters)" autocomplete="off"><div id="re" class="dn"></div><button class="pri big2" id="rgo">Set password</button>`);
+ $('#rgo').onclick=async()=>{try{await api('admin/reset',{uid,next:$('#np').value});closeM();alert('Password updated. Share it with the user; they can change it after signing in.')}catch(x){$('#re').textContent=x.message}}}
+$('#pwb').onclick=()=>{modal(`<div class="mh"><div><b>Change admin password</b></div><button class="x" onclick="closeM()">✕</button></div>
+ <input id="p0" class="field" type="password" placeholder="Current password" autocomplete="current-password"><input id="p1" class="field" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"><input id="p2" class="field" type="password" placeholder="Confirm new password" autocomplete="new-password">
+ <div id="re" class="dn"></div><button class="pri big2" id="rgo">Update password</button>`);
+ $('#rgo').onclick=async()=>{if($('#p1').value.trim()!==$('#p2').value.trim())return $('#re').textContent='New passwords do not match.';
+  try{await api('password',{current:$('#p0').value,next:$('#p1').value});closeM();alert('Admin password updated.')}catch(x){$('#re').textContent=x.message}}};
+Object.assign(window,{decide,reply,bal,resetPw,closeM,hold});
+const when=t=>new Date(t).toLocaleString();
+async function load(){if(busy)return;busy=true;let d;try{d=await api('admin/state')}finally{busy=false}
+ USERS=d.users;const um=Object.fromEntries(d.users.map(u=>[u.id,u]));const nm=id=>um[id]?esc(um[id].email):'(deleted)';$('#mtc').checked=d.maintenance;$('#uc').textContent=d.users.length;
+ const opts=d.users.map(u=>`<option value="${u.id}">${esc(u.email)}</option>`).join('');fill('#to','<option value="">All users</option>'+opts);fill('#au',opts||'<option value="">No users yet</option>');
+ const p=d.txs.filter(t=>t.status==='Pending');
+ $('#tx').innerHTML=p.length?'<table><tr><th>When<th>User<th>Type<th>Method<th>Amount<th>Details<th></tr>'+p.map(t=>`<tr><td>${when(t.t)}<td>${nm(t.uid)}<td>${t.type}<td>${esc(t.method)}<td>$${fmt(t.amt)}${t.coinAmt?`<br><small class="mu">${esc(t.coinAmt)} ${esc(t.coin)}</small>`:''}<td style="word-break:break-all;max-width:180px">${esc(t.ref)}<td><button onclick="decide('${t.id}',true)">Approve</button> <button onclick="decide('${t.id}',false)">Reject</button> ${t.type==='Withdraw'?`<button onclick="hold('${t.uid}',${um[t.uid]&&um[t.uid].hold?'false':'true'})">${um[t.uid]&&um[t.uid].hold?'Release hold':'Hold user'}</button>`:''}</tr>`).join('')+'</table>':'<div class="mu">Nothing pending.</div>';
+ // keep a half-typed reply: only redraw the chat list when no reply box is focused / has text
+ const typing=document.activeElement&&document.activeElement.id&&document.activeElement.id.startsWith('r')&&document.activeElement.tagName==='INPUT'||[...document.querySelectorAll('#ch input')].some(i=>i.value);
+ if(!typing)$('#ch').innerHTML=d.chats.map(c=>`<div class="note"><b>${nm(c.uid)}</b> ${c.esc?'<span class="dn">needs admin</span>':''}${c.msgs.map(x=>`<div class="mu">${x.from}: ${esc(x.text)}</div>`).join('')}<div class="row"><input id="r${c.uid}" placeholder="Reply"><button style="flex:0" onclick="reply('${c.uid}')">Send</button></div></div>`).join('')||'<div class="mu">No chats yet.</div>';
+ $('#us').innerHTML='<table><tr><th>Name<th>Email<th>Phone<th>Real<th>Demo<th>Open<th>Joined<th></tr>'+d.users.map(u=>`<tr><td>${esc(u.name)}${u.hold?' <span class="dn">on hold</span>':''}<td>${esc(u.email)}<td>${esc(u.phone)}<td>$${fmt(u.real)}<td>$${fmt(u.demo)}<td>${u.open}<td>${when(u.created)}<td style="white-space:nowrap"><button onclick="bal('${u.id}','real')">Edit real</button> <button onclick="bal('${u.id}','demo')">Edit demo</button> <button onclick="resetPw('${u.id}')">Reset password</button> <button onclick="hold('${u.id}',${u.hold?'false':'true'})">${u.hold?'Release hold':'Hold withdrawals'}</button></tr>`).join('')+'</table>'+(d.users.length?'':'<div class="mu">No users yet.</div>');
+ $('#all').innerHTML='<table><tr><th>When<th>User<th>Type<th>Method<th>Amount<th>Status</tr>'+d.txs.slice(0,60).map(t=>`<tr><td>${when(t.t)}<td>${nm(t.uid)}<td>${t.type}<td>${esc(t.method)}<td>$${fmt(t.amt)}<td>${t.status}</tr>`).join('')+'</table>'}
+setInterval(()=>{if(!$('#app').classList.contains('hide')&&!$('#mdl').classList.contains('show'))load().catch(e=>{if(e.status===401)boot()})},3000);
+boot();
+</script></body></html>
